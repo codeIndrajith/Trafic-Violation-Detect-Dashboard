@@ -7,7 +7,7 @@ const Navbar = () => {
     return (
         <>
             {/* Right side section */}
-            <section className="absolute md:relative bg-blue-300 h-[120px] w-full md:w-4/5 flex items-center justify-between px-8">
+            <section className="absolute md:relative bg-blue-300 h-[120px] w-full md:w-4/5 flex flex-col md:flex-row items-center justify-between px-8">
                 <div>
                     <h1 className="text-2xl font-bold">Dashboard</h1>
                 </div>
