@@ -1,17 +1,18 @@
 import { AiOutlineMail } from "react-icons/ai"
 import { BsBell } from "react-icons/bs"
 import { MdKeyboardArrowDown } from "react-icons/md"
+import LandingPage from "./LandingPage"
 
 
 const Navbar = () => {
     return (
-        <>
+        <div className="flex flex-col gap-2 w-full">
             {/* Right side section */}
-            <section className="hidden md:block absolute md:relative bg-blue-300 h-[120px] w-full md:w-4/5">
+            <section className="hidden md:block absolute md:relative h-[10%] w-full">
                 <div className="flex flex-col md:flex-row items-center justify-between px-8 py-6">
                     <div>
                         <h1 className="text-2xl font-bold">Dashboard</h1>
-                        <p className="text-[12px] text-[#131313]">Monday 03 March 2024</p>
+                        <p className="text-[12px] text-[#131313]">Monday 24 January 2025</p>
                     </div>
 
                     <div className="flex items-center gap-8">
@@ -28,7 +29,10 @@ const Navbar = () => {
                 </div>
             </section>
             
-        </>
+            <section className="w-full h-[90%] px-8 py-8">
+                <LandingPage />
+            </section>
+        </div>
     )
 }
 

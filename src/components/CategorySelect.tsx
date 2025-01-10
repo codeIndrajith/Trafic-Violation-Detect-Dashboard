@@ -2,7 +2,6 @@ import { BiSolidMobileVibration, BiSolidReport } from "react-icons/bi";
 import { BsFillFileEarmarkRuledFill } from "react-icons/bs";
 import { MdDashboardCustomize } from "react-icons/md";
 import { SiPaypal } from "react-icons/si";
-import { IoCloseSharp } from "react-icons/io5";
 import Logo from "../images/Frame.png"
 import { useState } from "react";
 import { RiCloseLargeLine, RiMenu3Fill } from "react-icons/ri";
@@ -25,7 +24,7 @@ const CategorySelect = () => {
                 </div>
                 <div className="md:hidden mt-4">
                     <h1 className="text-xl font-bold ml-4 pt-4">Dashboard</h1>
-                    <p className="text-[14px] text-[#131313] ml-4">Monday 03 March 2024</p>
+                    <p className="text-[14px] text-[#131313] ml-4">Monday 24 January 2025</p>
                 </div>
 
 
