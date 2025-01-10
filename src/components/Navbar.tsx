@@ -19,7 +19,7 @@ const Navbar = () => {
                         <div className="flex items-center gap-4">
                             <AiOutlineMail className="text-lg" />
                             <BsBell className="text-lg" />
-                            <p className="px-3 py-0.5 bg-gray-300 rounded-sm">I</p>
+                            <p className="px-3 py-0.5 bg-gray-300 rounded-sm">IB</p>
                         </div>
                         <div className="flex items-center gap-1">
                             <h1>Indrajith Bodhinayaka</h1>

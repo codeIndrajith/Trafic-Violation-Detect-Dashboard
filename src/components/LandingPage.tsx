@@ -57,18 +57,20 @@ const LandingPage = () => {
             </div>
 
             <div className="mt-8 flex flex-col lg:flex-row gap-2">
-                <div className="w-full flex items-center justify-center flex-col md:flex-row w-full h-auto lg:w-[74%] rounded-md lg:h-[140px] bg-gray-100 flex gap-24 items-center px-8 py-[75px]">
+                <div className="w-full flex items-start flex-col md:flex-row w-full h-auto lg:w-[74%] rounded-md lg:h-[140px] bg-gray-100 flex gap-24 items-center px-8 py-[75px]">
                     <img src={station} alt="police station image" className="size-48 lg:size-28 object-cover" />
-                    <div className="flex flex-col gap-2">
-                        <h1 className="text-2xl">Kandy Police Station</h1>
-                        <div className="flex gap-4 items-center">
-                           <FaPhoneAlt className="text-sm" /> <span className="text-sm">081 3456789</span>
-                        </div>
-                        <div className="flex gap-4 items-center">
-                        <MdOutlineMail className="text-sm" /> <span className="text-sm">kandypolice@gmail.com</span>
-                        </div>
-                        <div className="flex gap-4 items-center">
-                           <FaLocationPin className="text-sm" /> <span className="text-sm">Kandy</span>
+                    <div className="flex flex-col items-start justify-between gap-4">
+                        <h1 className="text-2xl">Kandy Police Station Sri Lanka</h1>
+                        <div className="flex flex-col gap-2">
+                            <div className="flex gap-4 items-center">
+                            <FaPhoneAlt className="text-sm" /> <span className="text-sm">081 3456789</span>
+                            </div>
+                            <div className="flex gap-4 items-center">
+                            <MdOutlineMail className="text-sm" /> <span className="text-sm">kandypolice@gmail.com</span>
+                            </div>
+                            <div className="flex gap-4 items-center">
+                            <FaLocationPin className="text-sm" /> <span className="text-sm">Kandy</span>
+                            </div>
                         </div>
                     </div>
                 </div>
