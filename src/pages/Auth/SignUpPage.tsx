@@ -1,7 +1,65 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import signup from "../../images/signup.svg";
+import { useState } from "react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
+import { ImSpinner9 } from "react-icons/im";
+
+interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  address: string;
+  contactNumber: string;
+}
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<User>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    address: "",
+    contactNumber: "",
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      if (res) {
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          address: "",
+          contactNumber: "",
+        });
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="w-full h-screen flex items-center justify-center p-12">
       <div className="flex flex-col xl:flex-row items-center justify-center gap-4">
@@ -19,7 +77,7 @@ const SignUpPage = () => {
         </div>
         <div className="w-full">
           <h2 className="py-2">Check Violation Today!</h2>
-          <form className="grid grid-cols-1 gap-4">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div className="relative w-full">
                 <input
@@ -27,6 +85,9 @@ const SignUpPage = () => {
                   id="first-name"
                   className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
                   placeholder=" "
+                  onChange={handleChange}
+                  name="firstName"
+                  value={formData.firstName}
                   required
                 />
                 <label
@@ -43,6 +104,9 @@ const SignUpPage = () => {
                   id="last-name"
                   className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
                   placeholder=" "
+                  onChange={handleChange}
+                  name="lastName"
+                  value={formData.lastName}
                   required
                 />
                 <label
@@ -59,6 +123,9 @@ const SignUpPage = () => {
                   id="email"
                   className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
                   placeholder=" "
+                  onChange={handleChange}
+                  name="email"
+                  value={formData.email}
                   required
                 />
                 <label
@@ -71,10 +138,13 @@ const SignUpPage = () => {
 
               <div className="relative w-full">
                 <input
-                  type="text"
+                  type="password"
                   id="password"
                   className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
                   placeholder=" "
+                  onChange={handleChange}
+                  name="password"
+                  value={formData.password}
                   required
                 />
                 <label
@@ -87,10 +157,13 @@ const SignUpPage = () => {
 
               <div className="relative w-full">
                 <input
-                  type="password"
+                  type="text"
                   id="address"
                   className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
                   placeholder=" "
+                  onChange={handleChange}
+                  name="address"
+                  value={formData.address}
                   required
                 />
                 <label
@@ -107,6 +180,9 @@ const SignUpPage = () => {
                   id="contactNumber"
                   className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
                   placeholder=" "
+                  onChange={handleChange}
+                  name="contactNumber"
+                  value={formData.contactNumber}
                   required
                   min={1}
                 />
@@ -124,7 +200,16 @@ const SignUpPage = () => {
                 className="bg-blue-400 text-white p-2 w-full text-center text-sm"
                 type="submit"
               >
-                Sign In
+                {isLoading ? (
+                  <div className="flex items-center justify-center gap-4 text-xs">
+                    <ImSpinner9 className="animate-spin" />{" "}
+                    <span>Processing...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center gap-4 text-xs">
+                    Sign In
+                  </div>
+                )}
               </button>
             </div>
             <div className="relative flex items-center justify-center gap-4 w-full">
