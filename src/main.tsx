@@ -19,23 +19,21 @@ import PrivateRoute from "./components/PrivateRoute.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <>
+    <Route path="/" element={<App />}>
       {/* Public Route - Shows Welcome Page Only If NOT Authenticated */}
       <Route element={<PublicRoute />}>
-        <Route path="/" element={<WelcomePage />} />
+        <Route index element={<WelcomePage />} />
       </Route>
 
       {/* Always Accessible Routes */}
-      <Route path="/sign-in" element={<SignInPage />} />
-      <Route path="/sign-up" element={<SignUpPage />} />
+      <Route path="sign-in" element={<SignInPage />} />
+      <Route path="sign-up" element={<SignUpPage />} />
 
       {/* Protected Routes - Only Accessible If Authenticated */}
       <Route element={<PrivateRoute />}>
-        <Route path="/" element={<App />}>
-          <Route path="/dashboard" element={<HomePage />} />
-        </Route>
+        <Route path="dashboard" element={<HomePage />} />
       </Route>
-    </>
+    </Route>
   )
 );
 
