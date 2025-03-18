@@ -11,16 +11,31 @@ import {
 import store from "./store.ts";
 import { Provider } from "react-redux";
 import HomePage from "./pages/HomePage.tsx";
+import WelcomePage from "./pages/WelcomePage.tsx";
 import SignInPage from "./pages/Auth/SignInPage.tsx";
 import SignUpPage from "./pages/Auth/SignUpPage.tsx";
+import PublicRoute from "./components/PublicRoute.tsx";
+import PrivateRoute from "./components/PrivateRoute.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      <Route index={true} path="/" element={<HomePage />} />
+    <>
+      {/* Public Route - Shows Welcome Page Only If NOT Authenticated */}
+      <Route element={<PublicRoute />}>
+        <Route path="/" element={<WelcomePage />} />
+      </Route>
+
+      {/* Always Accessible Routes */}
       <Route path="/sign-in" element={<SignInPage />} />
       <Route path="/sign-up" element={<SignUpPage />} />
-    </Route>
+
+      {/* Protected Routes - Only Accessible If Authenticated */}
+      <Route element={<PrivateRoute />}>
+        <Route path="/" element={<App />}>
+          <Route path="/dashboard" element={<HomePage />} />
+        </Route>
+      </Route>
+    </>
   )
 );
 

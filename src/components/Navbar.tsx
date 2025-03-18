@@ -3,9 +3,12 @@ import { BsBell } from "react-icons/bs";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import LandingPage from "./LandingPage";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const Navbar = () => {
   const NavigateFunction = useNavigate();
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const handleSignIn = (): void => {
     NavigateFunction("/sign-in");
   };

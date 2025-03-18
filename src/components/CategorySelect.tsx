@@ -5,9 +5,12 @@ import { SiPaypal } from "react-icons/si";
 import Logo from "../images/Frame.png";
 import { useState } from "react";
 import { RiCloseLargeLine, RiMenu3Fill } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const CategorySelect = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
   const toggleSidebar = (): void => {
     setIsSidebarOpen(!isSidebarOpen);
