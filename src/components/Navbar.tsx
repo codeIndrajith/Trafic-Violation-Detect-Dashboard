@@ -20,7 +20,14 @@ const Navbar = () => {
         <div className="flex flex-col md:flex-row items-center justify-between px-8 py-6">
           <div>
             <h1 className="text-2xl font-bold">Dashboard</h1>
-            <p className="text-[12px] text-[#131313]">Monday 24 January 2025</p>
+            <p className="text-[12px] text-[#131313]">
+              {new Date().toLocaleDateString("en-GB", {
+                weekday: "long",
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+            </p>
           </div>
 
           <div className="flex items-center gap-8">
