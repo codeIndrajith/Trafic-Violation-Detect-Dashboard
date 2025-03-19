@@ -25,10 +25,10 @@ const Navbar = () => {
   };
 
   const handleProfile = (): void => {
-    console.log("profile");
+    NavigateFunction("/profile");
   };
 
-  const handleLogOut = async () => {
+  const handleLogOut = async (): Promise<void> => {
     try {
       const res: any = await signOut(auth);
       dispatch(clearCredentials(res));
