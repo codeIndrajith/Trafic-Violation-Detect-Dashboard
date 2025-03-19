@@ -7,6 +7,7 @@ import { useState } from "react";
 import { RiCloseLargeLine, RiMenu3Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { Link } from "react-router-dom";
 
 const CategorySelect = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
@@ -45,27 +46,37 @@ const CategorySelect = () => {
           <div className="flex flex-col gap-12 md:gap-8 px-2 w-full">
             <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
               <MdDashboardCustomize className="text-lg" />{" "}
-              <span className="text-lg">Dashboard</span>
+              <Link to="/dashboard" className="text-lg">
+                Dashboard
+              </Link>
             </div>
 
             <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
               <BsFillFileEarmarkRuledFill className="text-lg" />{" "}
-              <span className="text-lg">Rules</span>
+              <Link to="/trafic-rules" className="text-lg">
+                Rules
+              </Link>
             </div>
 
             <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
               <BiSolidMobileVibration className="text-lg" />{" "}
-              <span className="text-lg">Violations</span>
+              <Link to="/violations" className="text-lg">
+                Violations
+              </Link>
             </div>
 
             <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
               <BiSolidReport className="text-lg" />{" "}
-              <span className="text-lg">Reports</span>
+              <Link to="/reports" className="text-lg">
+                Reports
+              </Link>
             </div>
 
             <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
               <SiPaypal className="text-lg" />{" "}
-              <span className="text-lg">Payment</span>
+              <Link to="/payments" className="text-lg">
+                Payment
+              </Link>
             </div>
           </div>
         </div>

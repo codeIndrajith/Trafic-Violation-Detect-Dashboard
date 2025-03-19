@@ -7,8 +7,11 @@ import { HiOutlineDocumentReport } from "react-icons/hi";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdOutlineMail } from "react-icons/md";
 import { FaLocationPin } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const LandingPage = () => {
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   return (
     <>
       <div className="h-44 mt-48 md:mt-8 bg-[#45AAF2] rounded-md flex flex justify-between items-center px-4">
@@ -72,7 +75,7 @@ const LandingPage = () => {
               </div>
               <div className="flex gap-4 items-center">
                 <MdOutlineMail className="text-sm" />{" "}
-                <span className="text-sm">MainPoliceStation@gmail.com</span>
+                <span className="text-sm">{userInfo?.email}</span>
               </div>
               <div className="flex gap-4 items-center">
                 <FaLocationPin className="text-sm" />{" "}

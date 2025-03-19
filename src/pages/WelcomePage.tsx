@@ -29,21 +29,21 @@ const WelcomePage = () => {
           className="w-full h-full  object-cover  rounded-md"
         />
         <motion.div
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 text-end sm:text-start p-8 rounded-xl w-[70%] sm:w-[60%] md:w-1/2"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 text-end sm:text-start rounded-xl px-6 md:px-2 w-[70%] sm:w-[60%] md:w-1/2"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
         >
-          <h2 className="text-md sm:text-2xl text-start font-bold mb-4">
+          <h2 className="text-md sm:text-xl xl:text-2xl text-start font-bold mb-4">
             Check Traffic Violations in Real-Time
           </h2>
-          <p className="text-xs md:text-lg mb-4">
+          <p className="text-xs md:text-md xl:text-lg mb-4">
             Stay up to date with the latest traffic violations in your area,
             monitored in real-time to keep you informed.
           </p>
           <button
             onClick={handleSignIn}
-            className="hover:bg-gray-500 border border-black hover:border-gray-500 hover:text-white text-xs sm:text-sm px-8 py-2 rounded-sm mt-4"
+            className="hover:bg-gray-500 border border-black hover:border-gray-500 hover:text-white text-xs sm:text-sm px-8 py-2 rounded-sm"
           >
             Sign In
           </button>

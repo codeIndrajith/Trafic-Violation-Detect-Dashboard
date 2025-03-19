@@ -12,27 +12,27 @@ import { auth } from "../config/firebase";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const NavigateFunction = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const handleSignIn = (): void => {
-    NavigateFunction("/sign-in");
+    navigate("/sign-in");
   };
 
   const handleSignUp = (): void => {
-    NavigateFunction("/sign-up");
+    navigate("/sign-up");
   };
 
   const handleProfile = (): void => {
-    NavigateFunction("/profile");
+    navigate("/profile");
   };
 
   const handleLogOut = async (): Promise<void> => {
     try {
-      const res: any = await signOut(auth);
-      dispatch(clearCredentials(res));
-      NavigateFunction("/sign-in");
+      await signOut(auth);
+      dispatch(clearCredentials());
+      navigate("/", { replace: true });
     } catch (error: any) {
       toast.error("Error occcured during logout", {
         className: "text-xs",
