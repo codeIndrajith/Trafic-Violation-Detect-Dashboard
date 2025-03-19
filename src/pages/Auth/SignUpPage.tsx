@@ -4,8 +4,11 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { ImSpinner9 } from "react-icons/im";
+import { setCredentials } from "../../slices/authSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
-interface User {
+interface UserSignUp {
   firstName: string;
   lastName: string;
   email: string;
@@ -16,7 +19,8 @@ interface User {
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState<User>({
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState<UserSignUp>({
     firstName: "",
     lastName: "",
     email: "",
@@ -44,6 +48,8 @@ const SignUpPage = () => {
         formData.password
       );
       if (res) {
+        const { password, ...filteredData } = formData;
+        dispatch(setCredentials(filteredData));
         setFormData({
           firstName: "",
           lastName: "",
@@ -52,10 +58,13 @@ const SignUpPage = () => {
           address: "",
           contactNumber: "",
         });
+        toast.success("Sign Up Complete", { className: "text-xs" });
         navigate("/dashboard");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error?.message, {
+        className: "text-xs",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -207,7 +216,7 @@ const SignUpPage = () => {
                   </div>
                 ) : (
                   <div className="flex items-center justify-center gap-4 text-xs">
-                    Sign In
+                    Sign Up
                   </div>
                 )}
               </button>
