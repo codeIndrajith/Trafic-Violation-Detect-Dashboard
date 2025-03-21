@@ -1,6 +1,6 @@
 const RuleCard = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
       <div className=" flex flex-col items-start gap-2 w-full h-auto border p-4">
         <h1 className="text-lg font-semibold">Single Line Cutting</h1>
 

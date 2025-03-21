@@ -14,7 +14,7 @@ const HomePage = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   return (
     <div className="w-full px-8">
-      <div className="h-44 mt-48 md:mt-8 bg-[#45AAF2] rounded-md flex flex justify-between items-center px-4">
+      <div className="h-44 mt-48 md:mt-0 bg-[#45AAF2] rounded-md flex flex justify-between items-center px-4">
         <div>
           <h1 className="text-2xl md:text-4xl">Police Station</h1>
           <p className="text-sm">Check all violation today</p>
