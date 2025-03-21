@@ -28,6 +28,14 @@ const Navbar = () => {
     navigate("/profile");
   };
 
+  const handleEmails = (): void => {
+    navigate("/emails");
+  };
+
+  const handleNotification = (): void => {
+    navigate("/notifications");
+  };
+
   const handleLogOut = async (): Promise<void> => {
     try {
       await signOut(auth);
@@ -58,8 +66,14 @@ const Navbar = () => {
 
           <div className="flex items-center gap-8">
             <div className="flex items-center gap-4">
-              <AiOutlineMail className="text-lg" />
-              <BsBell className="text-lg" />
+              <AiOutlineMail
+                onClick={handleEmails}
+                className="text-lg cursor-pointer"
+              />
+              <BsBell
+                onClick={handleNotification}
+                className="text-lg cursor-pointer"
+              />
             </div>
 
             {userInfo ? (
