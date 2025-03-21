@@ -1,5 +1,11 @@
+import RuleCard from "../components/RuleCard";
+
 const RulesPage = () => {
-  return <div>RulesPage</div>;
+  return (
+    <div className="px-8">
+      <RuleCard />
+    </div>
+  );
 };
 
 export default RulesPage;

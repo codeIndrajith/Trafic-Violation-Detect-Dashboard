@@ -1,7 +1,6 @@
 import { AiOutlineMail } from "react-icons/ai";
 import { BsBell } from "react-icons/bs";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import LandingPage from "./LandingPage";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -10,11 +9,15 @@ import { clearCredentials } from "../slices/authSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { toast } from "react-toastify";
+import { RiMenu3Fill } from "react-icons/ri";
+import Logo from "../images/Frame.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [pageNavigation, setPageNavigation] = useState<number>(1);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const handleSignIn = (): void => {
     navigate("/sign-in");
@@ -36,6 +39,10 @@ const Navbar = () => {
     navigate("/notifications");
   };
 
+  const toggleSidebar = (): void => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   const handleLogOut = async (): Promise<void> => {
     try {
       await signOut(auth);
@@ -49,10 +56,16 @@ const Navbar = () => {
   };
   return (
     <div className="flex flex-col gap-2 w-full">
-      {/* Right side section */}
       <section className="hidden md:block absolute md:relative h-[10%] w-full">
-        <div className="flex flex-col md:flex-row items-center justify-between px-8 py-6">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-8 items-start justify-between px-8 py-6">
+          <div className="md:mb-24 col-span-1 flex items-center justify-between">
+            <img className="w-14 h-14" src={Logo} alt="logo" />
+            <RiMenu3Fill
+              className="text-4xl md:hidden mr-4 cursor-pointer"
+              onClick={toggleSidebar}
+            />
+          </div>
+          <div className="col-span-6">
             <h1 className="text-2xl font-bold">Dashboard</h1>
             <p className="text-[12px] text-[#131313]">
               {new Date().toLocaleDateString("en-GB", {
@@ -64,7 +77,7 @@ const Navbar = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-8">
+          <div className="col-span-1 flex items-end justify-end gap-8">
             <div className="flex items-center gap-4">
               <AiOutlineMail
                 onClick={handleEmails}
@@ -126,10 +139,6 @@ const Navbar = () => {
             )}
           </div>
         </div>
-      </section>
-
-      <section className="w-full h-[90%] px-8 py-8">
-        <LandingPage />
       </section>
     </div>
   );

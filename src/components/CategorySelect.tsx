@@ -19,14 +19,7 @@ const CategorySelect = () => {
   return (
     <>
       {/* Left side section */}
-      <section className="absolute md:relative z-10 px-6 py-8 h-screen w-full md:w-[35%] lg:w-1/5">
-        <div className="md:mb-24 flex items-center justify-between">
-          <img className="w-20 h-20" src={Logo} alt="logo" />
-          <RiMenu3Fill
-            className="text-4xl md:hidden mr-4 cursor-pointer"
-            onClick={toggleSidebar}
-          />
-        </div>
+      <section className="absolute md:relative z-10 px-6 py-2 w-full md:w-[35%] lg:w-1/5">
         <div className="md:hidden mt-4">
           <h1 className="text-xl font-bold ml-4 pt-4">Dashboard</h1>
           <p className="text-[14px] text-[#131313] ml-4">
