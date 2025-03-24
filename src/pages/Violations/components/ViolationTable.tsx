@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const ViolationTable = () => {
   return (
     <div className="h-[350px] overflow-y-auto">
@@ -15,7 +17,14 @@ const ViolationTable = () => {
             <td className="p-2">23</td>
             <td className="p-2">2</td>
             <td className="p-2">Single Line Cutting</td>
-            <td className="p-2">-</td>
+            <td>
+              <Link
+                to="/id/generate-report"
+                className="p-2 cursor-pointer hover:text-blue-500 hover:underline transition"
+              >
+                Generate report
+              </Link>
+            </td>
           </tr>
         </tbody>
       </table>

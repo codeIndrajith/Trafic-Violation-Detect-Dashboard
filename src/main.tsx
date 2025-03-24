@@ -23,6 +23,7 @@ import PaymentPage from "./pages/Payment/pages/PaymentPage.tsx";
 import ProfilePage from "./pages/Profile/pages/ProfilePage.tsx";
 import NotificationPage from "./pages/Notifications/pages/NotificationPage.tsx";
 import EmailPage from "./pages/Emails/pages/EmailPage.tsx";
+import GenerateReportPage from "./pages/Violations/pages/GenerateReportPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,6 +49,7 @@ const router = createBrowserRouter(
 
         {/* Reports Related Routes */}
         <Route path="/reports" element={<ReportPage />} />
+        <Route path="/:id/generate-report" element={<GenerateReportPage />} />
 
         {/* Payment Related Routes */}
         <Route path="/payments" element={<PaymentPage />} />
