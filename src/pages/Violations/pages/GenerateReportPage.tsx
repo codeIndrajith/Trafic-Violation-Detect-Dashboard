@@ -6,7 +6,7 @@ const GenerateReportPage = () => {
     <div className="w-full px-8">
       <h1 className="text-xl font-semibold">Generate Report For Violations</h1>
 
-      <div className="flex flex-col lg:flex-row items-center gap-6 w-full">
+      <div className="flex flex-col lg:flex-row items-center gap-2 w-full">
         <GenerateReportForm />
         <GenerateReport />
       </div>
