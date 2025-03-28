@@ -9,22 +9,33 @@ import { MdOutlineMail } from "react-icons/md";
 import { FaLocationPin } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { motion } from "framer-motion";
 
 const HomePage = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   return (
-    <div className="w-full px-8">
+    <motion.div
+      className="w-full px-8"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
       <div className="h-44 mt-48 md:mt-0 bg-[#45AAF2] rounded-md flex flex justify-between items-center px-4">
         <div>
           <h1 className="text-2xl md:text-4xl">Police Station</h1>
           <p className="text-sm">Check all violation today</p>
         </div>
-        <div className="mb-12">
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        >
           <img className="" src={Police} alt="landing icon" />
-        </div>
+        </motion.div>
       </div>
 
-      <div className="grid gap-4 md:gap-16 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 mt-12">
+      <div className="grid gap-4 md:gap-16 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 mt-8">
         <div className="h-24 rounded-md bg-[#3498DB] flex items-center justify-around px-14">
           <IoDocumentText className="text-4xl text-white" />
 
@@ -59,7 +70,7 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-col lg:flex-row gap-2">
+      <div className="mt-4 flex flex-col lg:flex-row gap-2">
         <div className="w-full flex items-start flex-col md:flex-row w-full h-auto rounded-md lg:h-[140px] bg-gray-100 flex gap-4 lg:gap-24 items-center px-8 py-[75px]">
           <img
             src={station}
@@ -85,7 +96,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
