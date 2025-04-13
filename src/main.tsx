@@ -67,7 +67,7 @@ const router = createBrowserRouter(
         </Route>
       </Route>
 
-      <Route path="/pay-fine" element={<PayFinePage />} />
+      <Route path="/:ticket-id/pay-fine" element={<PayFinePage />} />
     </>
   )
 );
