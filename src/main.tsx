@@ -24,46 +24,51 @@ import ProfilePage from "./pages/Profile/pages/ProfilePage.tsx";
 import NotificationPage from "./pages/Notifications/pages/NotificationPage.tsx";
 import EmailPage from "./pages/Emails/pages/EmailPage.tsx";
 import GenerateReportPage from "./pages/Violations/pages/GenerateReportPage.tsx";
+import PayFinePage from "./pages/Fines/PayFinePage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
-      {/* Public Route - Shows Welcome Page Only If NOT Authenticated */}
-      <Route element={<PublicRoute />}>
-        <Route index element={<WelcomePage />} />
+    <>
+      <Route path="/" element={<App />}>
+        {/* Public Route - Shows Welcome Page Only If NOT Authenticated */}
+        <Route element={<PublicRoute />}>
+          <Route index element={<WelcomePage />} />
+        </Route>
+
+        {/* Always Accessible Routes */}
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route path="/sign-up" element={<SignUpPage />} />
+
+        {/* Protected Routes - Only Accessible If Authenticated */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<HomePage />} />
+
+          {/* Rules Related Routes */}
+          <Route path="/trafic-rules" element={<RulesPage />} />
+
+          {/* Violations Related Rules */}
+          <Route path="/violations" element={<ViolationPage />} />
+
+          {/* Reports Related Routes */}
+          <Route path="/reports" element={<ReportPage />} />
+          <Route path="/:id/generate-report" element={<GenerateReportPage />} />
+
+          {/* Payment Related Routes */}
+          <Route path="/payments" element={<PaymentPage />} />
+
+          {/* Profile Related Routes */}
+          <Route path="/profile" element={<ProfilePage />} />
+
+          {/* Notification Related Routes */}
+          <Route path="/notifications" element={<NotificationPage />} />
+
+          {/* Email Related Routes */}
+          <Route path="/emails" element={<EmailPage />} />
+        </Route>
       </Route>
 
-      {/* Always Accessible Routes */}
-      <Route path="/sign-in" element={<SignInPage />} />
-      <Route path="/sign-up" element={<SignUpPage />} />
-
-      {/* Protected Routes - Only Accessible If Authenticated */}
-      <Route element={<PrivateRoute />}>
-        <Route path="/dashboard" element={<HomePage />} />
-
-        {/* Rules Related Routes */}
-        <Route path="/trafic-rules" element={<RulesPage />} />
-
-        {/* Violations Related Rules */}
-        <Route path="/violations" element={<ViolationPage />} />
-
-        {/* Reports Related Routes */}
-        <Route path="/reports" element={<ReportPage />} />
-        <Route path="/:id/generate-report" element={<GenerateReportPage />} />
-
-        {/* Payment Related Routes */}
-        <Route path="/payments" element={<PaymentPage />} />
-
-        {/* Profile Related Routes */}
-        <Route path="/profile" element={<ProfilePage />} />
-
-        {/* Notification Related Routes */}
-        <Route path="/notifications" element={<NotificationPage />} />
-
-        {/* Email Related Routes */}
-        <Route path="/emails" element={<EmailPage />} />
-      </Route>
-    </Route>
+      <Route path="/pay-fine" element={<PayFinePage />} />
+    </>
   )
 );
 
