@@ -7,11 +7,12 @@ import { useState } from "react";
 import { RiCloseLargeLine, RiMenu3Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const CategorySelect = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const location = useLocation();
 
   const toggleSidebar = (): void => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -36,38 +37,63 @@ const CategorySelect = () => {
           <h1 className="text-md text-center md:text-start text-gray-400 mb-14 px-2">
             Category
           </h1>
-          <div className="flex flex-col gap-12 md:gap-8 px-2 w-full">
-            <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
-              <MdDashboardCustomize className="text-lg" />{" "}
-              <Link to="/dashboard" className="text-lg">
+          <div className="flex flex-col gap-12 md:gap-10 w-full">
+            <div
+              className={`flex gap-8 items-center cursor-pointer p-2 transition ${
+                location?.pathname === "/dashboard" &&
+                "bg-blue-300 text-white rounded-r-2xl"
+              }`}
+            >
+              <MdDashboardCustomize className="text-md" />{" "}
+              <Link to="/dashboard" className="text-md">
                 Dashboard
               </Link>
             </div>
 
-            <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
-              <BsFillFileEarmarkRuledFill className="text-lg" />{" "}
-              <Link to="/trafic-rules" className="text-lg">
+            <div
+              className={`flex gap-8 items-center cursor-pointer p-2 transition ${
+                location?.pathname === "/trafic-rules" &&
+                "bg-blue-300 text-white rounded-r-2xl"
+              }`}
+            >
+              <BsFillFileEarmarkRuledFill className="text-md" />{" "}
+              <Link to="/trafic-rules" className="text-md">
                 Rules
               </Link>
             </div>
 
-            <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
-              <BiSolidMobileVibration className="text-lg" />{" "}
-              <Link to="/violations" className="text-lg">
+            <div
+              className={`flex gap-8 items-center cursor-pointer p-2 transition ${
+                location?.pathname === "/violations" &&
+                "bg-blue-300 text-white rounded-r-2xl"
+              }`}
+            >
+              <BiSolidMobileVibration className="text-md" />{" "}
+              <Link to="/violations" className="text-md">
                 Violations
               </Link>
             </div>
 
-            <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
-              <BiSolidReport className="text-lg" />{" "}
-              <Link to="/reports" className="text-lg">
+            <div
+              className={`flex gap-8 items-center cursor-pointer p-2 transition ${
+                location?.pathname === "/reports" &&
+                "bg-blue-300 text-white rounded-r-2xl"
+              }`}
+            >
+              <BiSolidReport className="text-md" />{" "}
+              <Link to="/reports" className="text-md">
                 Reports
               </Link>
             </div>
 
-            <div className="flex gap-8 items-center cursor-pointer hover:text-blue-400 transition">
-              <SiPaypal className="text-lg" />{" "}
-              <Link to="/payments" className="text-lg">
+            <div
+              className={`flex gap-8 items-center cursor-pointer p-2 transition ${
+                location?.pathname === "/payments" &&
+                "bg-blue-300 text-white rounded-r-2xl"
+              }`}
+            >
+              <SiPaypal className="text-md" />{" "}
+              <Link to="/payments" className="text-md">
                 Payment
               </Link>
             </div>

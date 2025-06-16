@@ -7,6 +7,7 @@ import { auth } from "../../config/firebase";
 import { setCredentials } from "../../slices/authSlice";
 import { ImSpinner9 } from "react-icons/im";
 import { toast } from "react-toastify";
+import authImage from "../../assets/authImage.jpg";
 
 interface UserSignIn {
   email: string;
@@ -58,21 +59,12 @@ const SignInPage = () => {
     }
   };
   return (
-    <div className="w-full h-screen flex items-center justify-center p-12">
+    <div
+      className="w-full h-screen bg-cover bg-center flex items-center justify-center p-6"
+      style={{ backgroundImage: `url(${authImage})` }}
+    >
       <div className="flex flex-col xl:flex-row items-center justify-center gap-4">
-        <div className="w-full flex flex-col items-center justify-center">
-          <h1 className="font-semibold text-xs lg:text-xl mb-4 w-full">
-            Monitoring real-time traffic violations with us
-          </h1>
-          <div className="w-full">
-            <img
-              className="size-[60%] md:size-[40%] xl:size-[80%]"
-              src={signin}
-              alt="signin-image"
-            />
-          </div>
-        </div>
-        <div className="w-full">
+        <div className="w-full bg-white py-6 px-10 rounded-md">
           <h2 className="py-2">Welcome</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
