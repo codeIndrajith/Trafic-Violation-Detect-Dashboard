@@ -5,7 +5,7 @@ interface ReportCardProps {
   email: string;
   violation: string;
   fine: string;
-  paid: boolean;
+  paid?: boolean;
 }
 
 const ReportCard = ({

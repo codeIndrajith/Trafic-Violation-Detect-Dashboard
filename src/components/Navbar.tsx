@@ -58,7 +58,7 @@ const Navbar = () => {
     <div className="flex flex-col gap-2 w-full">
       <section className="hidden md:block absolute md:relative h-[10%] w-full">
         <div className="grid grid-cols-1 md:grid-cols-8 items-start justify-between px-8 py-6">
-          <div className="md:mb-24 col-span-1 flex items-center justify-between">
+          <div className="md:mb-2 col-span-1 flex items-center justify-between">
             <img className="w-14 h-14" src={Logo} alt="logo" />
             <RiMenu3Fill
               className="text-4xl md:hidden mr-4 cursor-pointer"
@@ -79,10 +79,10 @@ const Navbar = () => {
 
           <div className="col-span-1 flex items-end justify-end gap-8">
             <div className="flex items-center gap-4">
-              <AiOutlineMail
+              {/* <AiOutlineMail
                 onClick={handleEmails}
                 className="text-lg cursor-pointer"
-              />
+              /> */}
               <BsBell
                 onClick={handleNotification}
                 className="text-lg cursor-pointer"
@@ -103,12 +103,12 @@ const Navbar = () => {
                 {isModalOpen && (
                   <div className="absolute right-8 mt-2 w-52 bg-gray-100 shadow-xl rounded-md p-4">
                     <ul className="flex flex-col items-start">
-                      <button
+                      {/* <button
                         onClick={handleProfile}
                         className="p-2 w-full text-start text-sm hover:bg-gray-200 rounded-md cursor-pointer"
                       >
                         Profile
-                      </button>
+                      </button> */}
                       <button
                         onClick={handleLogOut}
                         className="p-2 w-full text-start text-sm hover:bg-gray-200 rounded-md cursor-pointer"

@@ -14,7 +14,7 @@ function App() {
       {navigation.state === "loading" && <Spinner />}
       <ToastContainer />
       {userInfo && <Navbar />}
-      <div className="flex items-start gap-4">
+      <div className="flex items-start">
         {userInfo && <CategorySelect />}
         <Outlet />
       </div>
