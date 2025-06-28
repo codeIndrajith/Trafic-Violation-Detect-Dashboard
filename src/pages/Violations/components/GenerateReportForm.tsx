@@ -1,15 +1,33 @@
 import { useState } from "react";
 import { ImSpinner9 } from "react-icons/im";
+import { Violation } from "../../../interface/violationInterface";
+import { useParams } from "react-router-dom";
+import { db, firestore } from "../../../config/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { ref, update } from "firebase/database";
+import { toast } from "react-toastify";
 
 interface ReportGenerateData {
+  vehicleNumber?: string;
+  violation?: string;
+  detectDateTime?: string;
   email: string;
   address: string;
   phone: string;
   fine: string;
 }
 
-const GenerateReportForm = () => {
+interface GenerateReportFormParams {
+  data: Violation;
+}
+
+const GenerateReportForm: React.FC<GenerateReportFormParams> = (data) => {
+  const params = useParams();
+  const id = params.id;
   const [formData, setFormData] = useState<ReportGenerateData>({
+    vehicleNumber: data?.data?.number_plate,
+    violation: data?.data?.violation,
+    detectDateTime: data?.data?.dateTime,
     email: "",
     address: "",
     phone: "",
@@ -25,19 +43,66 @@ const GenerateReportForm = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      if (!id) throw new Error("Missing violation ID");
+
+      // 1. Save the report data to Firestore
+      await setDoc(doc(firestore, "reports", id), {
+        ...formData,
+        violationId: id,
+        createdAt: new Date().toISOString(),
+      });
+
+      // 2. Update Realtime Database violation record
+      const sections = ["u-turn-violations", "double-line-cut-violations"];
+      let found = false;
+
+      for (const section of sections) {
+        const pathRef = ref(db, `${section}/${id}`);
+        try {
+          await update(pathRef, { reportGen: true });
+          found = true;
+          break;
+        } catch (error: any) {
+          console.log("Error occured find doc", error);
+        }
+      }
+
+      if (!found) {
+        throw new Error("Violation ID not found in any section.");
+      }
+
+      toast.success("Report successfully generated!");
+      setFormData({ email: "", address: "", phone: "", fine: "" });
+      window.location.reload();
+    } catch (err: any) {
+      console.error("Error generating report:", err);
+      toast.error("Failed to generate report. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <div className="w-full min-h-[500px] mt-4">
       <div className="w-full flex flex-col gap-4">
         <div className="flex items-center gap-12">
           <h1>Vehicle Number</h1>
-          <span>NA-2348</span>
+          <span>{data?.data.number_plate}</span>
         </div>
         <div className="flex items-center gap-12">
           <h1>Violations</h1>
-          <span>Illeagle Parking</span>
+          <span>{data?.data.violation}</span>
+        </div>
+        <div className="flex items-center gap-12">
+          <h1>Detect Date | Time</h1>
+          <span>
+            {data?.data?.dateTime &&
+              new Date(data.data.dateTime).toLocaleString()}
+          </span>
         </div>
       </div>
       <form
