@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import { MdReportProblem } from "react-icons/md";
-import { ReportData, Violation } from "../../../interface/violationInterface";
+import { ReportData } from "../../../interface/violationInterface";
 import { firestore } from "../../../config/firebase";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
+import { ImSpinner6 } from "react-icons/im";
 
 const GenerateReport: React.FC = () => {
   const params = useParams();
   const id = params.id;
   const [report, setReport] = useState<ReportData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [sendStatus, setSendStatus] = useState<{
+    success?: boolean;
+    message?: string;
+  }>({});
 
   useEffect(() => {
     const loadReport = async () => {
@@ -36,9 +42,12 @@ const GenerateReport: React.FC = () => {
   }, [id]);
 
   const [userEmail, setUserEmail] = useState<string>("");
-  const sendEmailViaReportHandler = (e: React.FormEvent): void => {
+  const sendEmailViaReportHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(userEmail);
+    setIsSubmitting(true);
+    setSendStatus({});
+
+    console.log("send email funcitonality");
   };
   return (
     <>
@@ -142,6 +151,7 @@ const GenerateReport: React.FC = () => {
               <div className="grid grid-cols-4 gap-2">
                 <input
                   type="email"
+                  value={userEmail}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setUserEmail(e.target.value)
                   }
@@ -149,11 +159,37 @@ const GenerateReport: React.FC = () => {
                   placeholder="Enter user email"
                   required
                 />
-                <button className="text-white text-xs col-span-1 bg-blue-500 rounded-sm p-2">
-                  Send Report
-                </button>
+                {!isSubmitting ? (
+                  <button
+                    type="button"
+                    className="text-white flex items-center justify-center gap-2 text-xs col-span-1 bg-blue-500 rounded-sm p-2"
+                    disabled
+                  >
+                    <ImSpinner6 className="animate-spin" /> Please wait...
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="text-white text-xs col-span-1 bg-blue-500 rounded-sm p-2 hover:bg-blue-600 transition-colors"
+                  >
+                    Send Report
+                  </button>
+                )}
               </div>
             </form>
+
+            {/* Status message display */}
+            {sendStatus.message && (
+              <div
+                className={`mt-2 text-sm p-2 rounded-sm ${
+                  sendStatus.success
+                    ? "bg-green-100 text-green-800"
+                    : "bg-red-100 text-red-800"
+                }`}
+              >
+                {sendStatus.message}
+              </div>
+            )}
           </div>
         </div>
       )}

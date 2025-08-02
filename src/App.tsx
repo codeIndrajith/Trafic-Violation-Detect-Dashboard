@@ -14,9 +14,11 @@ function App() {
       {navigation.state === "loading" && <Spinner />}
       <ToastContainer />
       {userInfo && <Navbar />}
-      <div className="flex items-start gap-4">
-        {userInfo && <CategorySelect />}
-        <Outlet />
+      <div className="flex items-start">
+        {userInfo && userInfo.role === "Admin" && <CategorySelect />}
+        <div className="w-full">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

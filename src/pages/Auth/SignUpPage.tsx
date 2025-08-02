@@ -2,19 +2,21 @@ import { Link, useNavigate } from "react-router-dom";
 import signup from "../../images/signup.svg";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { auth, database, db } from "../../config/firebase";
 import { ImSpinner9 } from "react-icons/im";
 import { setCredentials } from "../../slices/authSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import authImage from "../../assets/authImage.jpg";
+import { FaUser } from "react-icons/fa";
+import { doc, setDoc } from "firebase/firestore";
 
 interface UserSignUp {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  address: string;
+  role: string;
   contactNumber: string;
 }
 
@@ -26,12 +28,14 @@ const SignUpPage = () => {
     lastName: "",
     email: "",
     password: "",
-    address: "",
+    role: "",
     contactNumber: "",
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ): void => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -49,6 +53,11 @@ const SignUpPage = () => {
         formData.password
       );
       if (res) {
+        await setDoc(doc(database, "users", res.user.uid), {
+          email: formData.email,
+          role: formData.role,
+          createdAt: new Date(),
+        });
         const { password, ...filteredData } = formData;
         dispatch(setCredentials(filteredData));
         setFormData({
@@ -56,11 +65,16 @@ const SignUpPage = () => {
           lastName: "",
           email: "",
           password: "",
-          address: "",
+          role: "",
           contactNumber: "",
         });
         toast.success("Sign Up Complete", { className: "text-xs" });
-        navigate("/dashboard");
+        if (formData.role === "Admin") {
+          navigate("/dashboard");
+        }
+        if (formData.role === "User") {
+          navigate("/monitor");
+        }
       }
     } catch (error: any) {
       toast.error(error?.message, {
@@ -157,21 +171,42 @@ const SignUpPage = () => {
               </div>
 
               <div className="relative w-full">
-                <input
-                  type="text"
-                  id="address"
-                  className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
-                  placeholder=" "
+                <select
+                  id="role"
+                  name="role"
+                  value={formData.role}
                   onChange={handleChange}
-                  name="address"
-                  value={formData.address}
                   required
-                />
+                  className="peer w-full border rounded-sm border-gray-200 p-4 text-sm bg-white focus:outline-none focus:border-green-500 invalid:border-red-500 appearance-none"
+                >
+                  <option value="" disabled hidden>
+                    Select a role
+                  </option>
+                  <option value="Admin">Admin</option>
+                </select>
+
+                {/* Dropdown icon */}
+                <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+
                 <label
-                  htmlFor="address"
+                  htmlFor="role"
                   className="absolute left-4 top-[3px] text-xs text-green-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-focus:top-[3px] peer-focus:text-xs peer-focus:text-green-500"
                 >
-                  Police station address
+                  Role
                 </label>
               </div>
 

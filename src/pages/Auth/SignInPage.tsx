@@ -3,11 +3,12 @@ import signin from "../../images/signin.svg";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { auth, database } from "../../config/firebase";
 import { setCredentials } from "../../slices/authSlice";
 import { ImSpinner9 } from "react-icons/im";
 import { toast } from "react-toastify";
 import authImage from "../../assets/authImage.jpg";
+import { doc, getDoc } from "firebase/firestore";
 
 interface UserSignIn {
   email: string;
@@ -34,30 +35,49 @@ const SignInPage = () => {
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
       const res = await signInWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
       );
-      if (res) {
-        const { password, ...filteredData } = formData;
-        dispatch(setCredentials(filteredData));
-        setFormData({
-          email: "",
-          password: "",
-        });
-        toast.success("Sign In Complete", { className: "text-xs" });
-        navigate("/dashboard");
+
+      if (res.user) {
+        const userDocRef = doc(database, "users", res.user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const { role, email } = userData;
+
+          dispatch(setCredentials({ email, role }));
+
+          // Reset form
+          setFormData({ email: "", password: "" });
+
+          toast.success(`Signed in complete`, { className: "text-xs" });
+
+          // Redirect based on role
+          if (role === "Admin") {
+            navigate("/dashboard");
+          } else {
+            navigate("/monitor");
+          }
+        } else {
+          throw new Error("User data not found in Firestore.");
+        }
       }
     } catch (error: any) {
       toast.error("Invalid Login Credentials", {
         className: "text-xs",
       });
+      console.error(error.message);
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <div
       className="w-full h-screen bg-cover bg-center flex items-center justify-center p-6"

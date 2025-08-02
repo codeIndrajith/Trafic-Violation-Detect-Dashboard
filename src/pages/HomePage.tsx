@@ -20,7 +20,7 @@ const HomePage = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-      <div className="h-44 mt-48 md:mt-0 bg-[#45AAF2] rounded-md flex flex justify-between items-center px-4">
+      <div className="h-40 mt-48 md:mt-0 bg-[#45AAF2] rounded-md flex flex justify-between items-center px-4">
         <div>
           <h1 className="text-2xl md:text-4xl">Police Station</h1>
           <p className="text-sm">Check all violation today</p>
@@ -31,7 +31,7 @@ const HomePage = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-          <img className="" src={Police} alt="landing icon" />
+          <img className="w-[150px]" src={Police} alt="landing icon" />
         </motion.div>
       </div>
 
