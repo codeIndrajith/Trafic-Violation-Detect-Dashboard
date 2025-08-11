@@ -1,76 +1,27 @@
 const RuleCard = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-      <div className=" flex flex-col items-start gap-2 w-full h-auto border p-4">
-        <h1 className="text-lg font-semibold">Single Line Cutting</h1>
-
+      {/* Double Line Cutting */}
+      <div className="flex flex-col items-start gap-2 w-full h-auto border p-4">
+        <h1 className="text-lg font-semibold">Double Line Crossing</h1>
         <p className="text-sm text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
-          sunt sapiente qui quis architecto asperiores beatae quas recusandae
-          veniam enim necessitatibus repellendus obcaecati animi, fugit
-          molestiae inventore provident aliquam facere.
+          Crossing over a continuous double line is a serious traffic offense,
+          as it indicates a no-overtaking zone for driver safety. This act can
+          lead to head-on collisions and is prohibited in all road conditions.
         </p>
-        <h2 className="text-md font-semibold">Rs 3500.00</h2>
+        <h2 className="text-md font-semibold">Rs 5,000.00</h2>
       </div>
 
-      <div className=" flex flex-col items-start gap-2 w-full border p-4">
-        <h1 className="text-lg font-semibold">Single Line Cutting</h1>
-
+      {/* Illegal U-Turn */}
+      <div className="flex flex-col items-start gap-2 w-full border p-4">
+        <h1 className="text-lg font-semibold">Illegal U-Turn</h1>
         <p className="text-sm text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
-          sunt sapiente qui quis architecto asperiores beatae quas recusandae
-          veniam enim necessitatibus repellendus obcaecati animi, fugit
-          molestiae inventore provident aliquam facere.
+          Performing a U-turn in a prohibited area, such as near junctions or
+          pedestrian crossings, can disrupt traffic flow and create dangerous
+          situations for other road users. Always follow road signs and
+          markings.
         </p>
-        <h2 className="text-md font-semibold">Rs 3500.00</h2>
-      </div>
-
-      <div className=" flex flex-col items-start gap-2 w-full border p-4">
-        <h1 className="text-lg font-semibold">Single Line Cutting</h1>
-
-        <p className="text-sm text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
-          sunt sapiente qui quis architecto asperiores beatae quas recusandae
-          veniam enim necessitatibus repellendus obcaecati animi, fugit
-          molestiae inventore provident aliquam facere.
-        </p>
-        <h2 className="text-md font-semibold">Rs 3500.00</h2>
-      </div>
-
-      <div className=" flex flex-col items-start gap-2 w-full border p-4">
-        <h1 className="text-lg font-semibold">Single Line Cutting</h1>
-
-        <p className="text-sm text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
-          sunt sapiente qui quis architecto asperiores beatae quas recusandae
-          veniam enim necessitatibus repellendus obcaecati animi, fugit
-          molestiae inventore provident aliquam facere.
-        </p>
-        <h2 className="text-md font-semibold">Rs 3500.00</h2>
-      </div>
-
-      <div className=" flex flex-col items-start gap-2 w-full border p-4">
-        <h1 className="text-lg font-semibold">Single Line Cutting</h1>
-
-        <p className="text-sm text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
-          sunt sapiente qui quis architecto asperiores beatae quas recusandae
-          veniam enim necessitatibus repellendus obcaecati animi, fugit
-          molestiae inventore provident aliquam facere.
-        </p>
-        <h2 className="text-md font-semibold">Rs 3500.00</h2>
-      </div>
-
-      <div className=" flex flex-col items-start gap-2 w-full border p-4">
-        <h1 className="text-lg font-semibold">Single Line Cutting</h1>
-
-        <p className="text-sm text-justify">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
-          sunt sapiente qui quis architecto asperiores beatae quas recusandae
-          veniam enim necessitatibus repellendus obcaecati animi, fugit
-          molestiae inventore provident aliquam facere.
-        </p>
-        <h2 className="text-md font-semibold">Rs 3500.00</h2>
+        <h2 className="text-md font-semibold">Rs 3,500.00</h2>
       </div>
     </div>
   );

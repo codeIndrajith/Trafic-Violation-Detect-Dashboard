@@ -25,6 +25,8 @@ import NotificationPage from "./pages/Notifications/pages/NotificationPage.tsx";
 import EmailPage from "./pages/Emails/pages/EmailPage.tsx";
 import GenerateReportPage from "./pages/Violations/pages/GenerateReportPage.tsx";
 import PayFinePage from "./pages/Fines/PayFinePage.tsx";
+import MonitorDashboardPage from "./pages/monitor-pages/MonitorDashboardPage.tsx";
+import ViolationDetailPage from "./pages/monitor-pages/ViolationDetailPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -61,6 +63,10 @@ const router = createBrowserRouter(
 
           {/* Notification Related Routes */}
           <Route path="/notifications" element={<NotificationPage />} />
+
+          {/* Second user realted routes */}
+          <Route path="/monitor" element={<MonitorDashboardPage />} />
+          <Route path="/monitor/:id" element={<ViolationDetailPage />} />
 
           {/* Email Related Routes */}
           <Route path="/emails" element={<EmailPage />} />

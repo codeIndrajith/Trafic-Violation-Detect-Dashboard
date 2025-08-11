@@ -42,6 +42,8 @@ const ViolationTable: React.FC = () => {
         ];
 
         setViolations(allViolations);
+        const violationCount = allViolations.length;
+        localStorage.setItem("violationCount", violationCount.toString());
       } catch (error: any) {
         console.log("Error occured during fetch violations data", error);
       } finally {
@@ -51,8 +53,6 @@ const ViolationTable: React.FC = () => {
 
     fetchData();
   }, []);
-
-  console.log(violations);
 
   return (
     <div className="h-[350px] overflow-y-auto">
@@ -96,7 +96,7 @@ const ViolationTable: React.FC = () => {
           <tbody className="text-xs">
             {violations && violations.length > 0 ? (
               violations.map((violation, index) => (
-                <tr key={index}>
+                <tr key={index + 1}>
                   <td className="p-2">{violation.number_plate}</td>
                   <td className="p-2">{violation.vehicle}</td>
                   <td className="p-2">{violation.violation}</td>

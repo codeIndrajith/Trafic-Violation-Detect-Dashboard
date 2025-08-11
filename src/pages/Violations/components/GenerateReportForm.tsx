@@ -77,7 +77,6 @@ const GenerateReportForm: React.FC<GenerateReportFormParams> = (data) => {
       }
 
       toast.success("Report successfully generated!");
-      setFormData({ email: "", address: "", phone: "", fine: "" });
       window.location.reload();
     } catch (err: any) {
       console.error("Error generating report:", err);

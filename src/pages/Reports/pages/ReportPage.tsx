@@ -19,6 +19,7 @@ const ReportPage = () => {
         }));
 
         setReports(reportList);
+        localStorage.setItem("ReportCount", reportList.length.toString());
       } catch (error) {
         console.error("Error fetching reports:", error);
       } finally {

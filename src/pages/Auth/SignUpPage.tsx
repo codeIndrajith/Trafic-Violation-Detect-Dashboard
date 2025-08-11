@@ -183,6 +183,7 @@ const SignUpPage = () => {
                     Select a role
                   </option>
                   <option value="Admin">Admin</option>
+                  <option value="User">Violation Inspector</option>
                 </select>
 
                 {/* Dropdown icon */}

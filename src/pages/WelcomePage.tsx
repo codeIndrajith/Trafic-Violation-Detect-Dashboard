@@ -50,7 +50,7 @@ const WelcomePage = () => {
         </motion.div>
       </motion.div>
       <motion.div
-        className="w-full h-auto grid grid-cols-1 lg:grid-cols-3 py-4 gap-4 mt-2"
+        className="w-full h-auto grid grid-cols-1 lg:grid-cols-2 py-4 gap-4 mt-2"
         initial="hidden"
         animate="visible"
         variants={{
@@ -67,11 +67,7 @@ const WelcomePage = () => {
             img: camera,
             text: "Our advanced traffic violation detection system operates 24/7, utilizing road cameras to monitor and identify violations in real-time.",
           },
-          {
-            title: "Notification Alert",
-            img: notification,
-            text: "Our system features a real-time notification system that instantly alerts the police station upon detecting a violation.",
-          },
+
           {
             title: "Rules and Payment",
             img: payment,

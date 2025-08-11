@@ -10,9 +10,19 @@ import { FaLocationPin } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const HomePage = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const [vilCount, setVilCount] = useState<string>("");
+  const [repoCount, setRepoCount] = useState<string>("");
+
+  useEffect(() => {
+    const count1 = localStorage.getItem("violationCount");
+    const count2 = localStorage.getItem("ReportCount");
+    setVilCount(count1 ?? "");
+    setRepoCount(count2 ?? "");
+  }, []);
   return (
     <motion.div
       className="w-full px-8"
@@ -35,12 +45,12 @@ const HomePage = () => {
         </motion.div>
       </div>
 
-      <div className="grid gap-4 md:gap-16 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 mt-8">
+      <div className="grid gap-4 md:gap-16 grid-cols-1 sm:grid-cols-3 mt-8">
         <div className="h-24 rounded-md bg-[#3498DB] flex items-center justify-around px-14">
           <IoDocumentText className="text-4xl text-white" />
 
           <div className="flex flex-col items-center">
-            <p className="text-4xl xl:text-xl text-white">4</p>
+            <p className="text-4xl xl:text-xl text-white">2</p>
             <p className="text-sm text-white">Rules</p>
           </div>
         </div>
@@ -48,7 +58,7 @@ const HomePage = () => {
           <BsFillFileEarmarkRuledFill className="text-4xl text-white" />
 
           <div className="flex flex-col items-center">
-            <p className="text-4xl xl:text-xl text-white">35</p>
+            <p className="text-4xl xl:text-xl text-white">{vilCount}</p>
             <p className="text-sm text-white">Violation</p>
           </div>
         </div>
@@ -56,16 +66,8 @@ const HomePage = () => {
           <HiOutlineDocumentReport className="text-5xl text-white" />
 
           <div className="flex flex-col items-center">
-            <p className="text-4xl xl:text-xl text-white">24</p>
+            <p className="text-4xl xl:text-xl text-white">{repoCount}</p>
             <p className="text-sm text-white">Reports</p>
-          </div>
-        </div>
-        <div className="h-24 rounded-md bg-[#95A5A6] flex items-center justify-around px-14">
-          <PiPaypalLogo className="text-5xl text-white" />
-
-          <div className="flex flex-col items-center">
-            <p className="text-4xl xl:text-xl text-white">20</p>
-            <p className="text-sm text-white">Pay</p>
           </div>
         </div>
       </div>
