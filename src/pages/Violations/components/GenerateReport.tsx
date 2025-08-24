@@ -5,6 +5,7 @@ import { firestore } from "../../../config/firebase";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { ImSpinner6 } from "react-icons/im";
+import emailjs from "@emailjs/browser";
 
 const GenerateReport: React.FC = () => {
   const params = useParams();
@@ -16,6 +17,7 @@ const GenerateReport: React.FC = () => {
     success?: boolean;
     message?: string;
   }>({});
+  const [userEmail, setUserEmail] = useState<string>("");
 
   useEffect(() => {
     const loadReport = async () => {
@@ -41,13 +43,40 @@ const GenerateReport: React.FC = () => {
     loadReport();
   }, [id]);
 
-  const [userEmail, setUserEmail] = useState<string>("");
   const sendEmailViaReportHandler = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!report) return;
     setIsSubmitting(true);
     setSendStatus({});
 
-    console.log("send email funcitonality");
+    try {
+      const templateParams = {
+        to_email: userEmail,
+        vehicleNumber: report.vehicleNumber,
+        violation: report.violation,
+        fine: report.fine,
+        address: report.address,
+      };
+
+      const serviceId = import.meta.env.VITE_SERVICE_ID;
+      const templateId = import.meta.env.VITE_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_PUBLIC_KEY;
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      setUserEmail("");
+      setSendStatus({
+        success: true,
+        message: "Report sent successfully!",
+      });
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      setSendStatus({
+        success: false,
+        message: "Failed to send report. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <>
@@ -159,7 +188,7 @@ const GenerateReport: React.FC = () => {
                   placeholder="Enter user email"
                   required
                 />
-                {!isSubmitting ? (
+                {isSubmitting ? (
                   <button
                     type="button"
                     className="text-white flex items-center justify-center gap-2 text-xs col-span-1 bg-blue-500 rounded-sm p-2"
