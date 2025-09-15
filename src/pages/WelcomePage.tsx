@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import welcomeImage from "../images/welcome.jpg";
 import camera from "../images/camera.svg";
-import notification from "../images/notification.svg";
 import payment from "../images/payment.svg";
 import { motion } from "framer-motion";
 
