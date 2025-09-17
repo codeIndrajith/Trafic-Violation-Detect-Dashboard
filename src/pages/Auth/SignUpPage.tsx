@@ -17,7 +17,15 @@ import {
   FaTrafficLight,
   FaShieldAlt,
 } from "react-icons/fa";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  collectionGroup,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 
 interface UserSignUp {
   firstName: string;
@@ -55,6 +63,22 @@ const SignUpPage = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
+      const snapshot = await getDocs(collection(database, "users"));
+      const exists = snapshot.docs.find((doc) => {
+        const role = doc.data().role;
+        return role === "Admin" || role === "User";
+      });
+      if (exists && (formData.role === "Admin" || formData.role === "User")) {
+        toast.error(
+          `${formData.role === "User" ? "Officer" : "Admin"} already exists`,
+          {
+            className: "text-xs",
+          }
+        );
+
+        return;
+      }
+
       const res = await createUserWithEmailAndPassword(
         auth,
         formData.email,
@@ -221,6 +245,7 @@ const SignUpPage = () => {
                   </option>
                   <option value="Admin">Admin</option>
                   <option value="User">Violation Inspector</option>
+                  <option value="Customer">User</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <svg

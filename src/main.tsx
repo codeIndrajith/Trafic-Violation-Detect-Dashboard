@@ -25,6 +25,9 @@ import EmailPage from "./pages/Emails/pages/EmailPage.tsx";
 import GenerateReportPage from "./pages/Violations/pages/GenerateReportPage.tsx";
 import MonitorDashboardPage from "./pages/monitor-pages/MonitorDashboardPage.tsx";
 import ViolationDetailPage from "./pages/monitor-pages/ViolationDetailPage.tsx";
+import AuthorizeProtection from "./components/AuthorizeProtection.tsx";
+import UnauthorizedPage from "./components/UnauthorizedPage .tsx";
+import NotFoundPage from "./components/NotFoundPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,34 +41,39 @@ const router = createBrowserRouter(
         {/* Always Accessible Routes */}
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
         {/* Protected Routes - Only Accessible If Authenticated */}
         <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<HomePage />} />
+          <Route element={<AuthorizeProtection allowedRoles={["Admin"]} />}>
+            <Route path="/dashboard" element={<HomePage />} />
 
-          {/* Rules Related Routes */}
-          <Route path="/trafic-rules" element={<RulesPage />} />
+            {/* Rules Related Routes */}
+            <Route path="/trafic-rules" element={<RulesPage />} />
 
-          {/* Violations Related Rules */}
-          <Route path="/violations" element={<ViolationPage />} />
+            {/* Violations Related Rules */}
+            <Route path="/violations" element={<ViolationPage />} />
 
-          {/* Reports Related Routes */}
-          <Route path="/reports" element={<ReportPage />} />
-          <Route path="/:id/generate-report" element={<GenerateReportPage />} />
+            {/* Reports Related Routes */}
+            <Route path="/reports" element={<ReportPage />} />
+            <Route
+              path="/:id/generate-report"
+              element={<GenerateReportPage />}
+            />
 
-          {/* Profile Related Routes */}
-          <Route path="/profile" element={<ProfilePage />} />
+            {/* Profile Related Routes */}
+            <Route path="/profile" element={<ProfilePage />} />
+            {/* Email Related Routes */}
+            <Route path="/emails" element={<EmailPage />} />
+          </Route>
 
-          {/* Notification Related Routes */}
-          <Route path="/notifications" element={<NotificationPage />} />
-
-          {/* Second user realted routes */}
-          <Route path="/monitor" element={<MonitorDashboardPage />} />
-          <Route path="/monitor/:id" element={<ViolationDetailPage />} />
-
-          {/* Email Related Routes */}
-          <Route path="/emails" element={<EmailPage />} />
+          <Route element={<AuthorizeProtection allowedRoles={["User"]} />}>
+            {/* Second user realted routes */}
+            <Route path="/monitor" element={<MonitorDashboardPage />} />
+            <Route path="/monitor/:id" element={<ViolationDetailPage />} />
+          </Route>
         </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </>
   )

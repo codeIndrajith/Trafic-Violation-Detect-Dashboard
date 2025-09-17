@@ -114,8 +114,8 @@ const ViolationTable: React.FC = () => {
       </div>
 
       {/* Search and Filter Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="relative">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="relative w-full">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <FiSearch className="text-gray-400" />
           </div>
@@ -128,8 +128,7 @@ const ViolationTable: React.FC = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2">
-          <FiFilter className="text-gray-400" />
+        <div className="flex items-center w-full gap-2">
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}

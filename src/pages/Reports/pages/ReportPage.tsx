@@ -57,8 +57,8 @@ const ReportPage = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="">
         {/* Header Section */}
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800 flex items-center gap-2">
@@ -113,7 +113,6 @@ const ReportPage = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              <FiFilter className="text-gray-400" />
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
