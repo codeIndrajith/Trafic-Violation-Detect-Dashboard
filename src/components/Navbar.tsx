@@ -79,6 +79,14 @@ const Navbar = ({
     },
   ];
 
+  const OfficernavItems = [
+    {
+      path: "/monitor",
+      icon: <MdDashboardCustomize className="text-lg" />,
+      label: "Dashboard",
+    },
+  ];
+
   return (
     <>
       {/* Mobile overlay */}
@@ -112,36 +120,63 @@ const Navbar = ({
               Menu
             </h2>
           </div>
-
-          <nav className="flex-1 px-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={closeSidebar}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl mb-1 transition-colors ${
-                  location.pathname === item.path
-                    ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-600 hover:bg-gray-50"
-                }`}
-              >
-                <span
-                  className={`${
+          {userInfo?.role === "Admin" ? (
+            <nav className="flex-1 px-2 bg-gray-200 md:mt-2.5 pt-8">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={closeSidebar}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl mb-1 transition-colors ${
                     location.pathname === item.path
-                      ? "text-blue-600"
-                      : "text-gray-500"
+                      ? "bg-blue-50 text-blue-600 font-medium"
+                      : "text-gray-600 hover:bg-gray-50"
                   }`}
                 >
-                  {item.icon}
-                </span>
-                <span className="text-sm">{item.label}</span>
-              </Link>
-            ))}
-          </nav>
+                  <span
+                    className={`${
+                      location.pathname === item.path
+                        ? "text-blue-600"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {item.icon}
+                  </span>
+                  <span className="text-sm">{item.label}</span>
+                </Link>
+              ))}
+            </nav>
+          ) : (
+            <nav className="flex-1 px-2 bg-gray-200 md:mt-2.5 pt-8">
+              {OfficernavItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={closeSidebar}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl mb-1 transition-colors ${
+                    location.pathname === item.path
+                      ? "bg-blue-50 text-blue-600 font-medium"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  <span
+                    className={`${
+                      location.pathname === item.path
+                        ? "text-blue-600"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {item.icon}
+                  </span>
+                  <span className="text-sm">{item.label}</span>
+                </Link>
+              ))}
+            </nav>
+          )}
 
           {/* Mobile user section */}
           {userInfo && isMobile && (
-            <div className="p-4 border-t border-gray-200">
+            <div className="p-4 border-t border-gray-200 bg-gray-200 pt-8">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                   <RiUser3Line className="text-blue-600" />
@@ -150,7 +185,9 @@ const Navbar = ({
                   <p className="text-sm font-medium text-gray-800">
                     {userInfo.email}
                   </p>
-                  <p className="text-xs text-gray-500">User</p>
+                  <p className="text-xs text-gray-500">
+                    {userInfo?.role === "User" ? "Officer" : "Admin"}
+                  </p>
                 </div>
               </div>
               <button

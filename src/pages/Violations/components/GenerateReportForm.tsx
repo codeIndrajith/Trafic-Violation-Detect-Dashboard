@@ -103,7 +103,7 @@ const GenerateReportForm: React.FC<GenerateReportFormParams> = ({ data }) => {
   return (
     <div className="w-full">
       {/* Violation Summary */}
-      <div className="bg-blue-50 rounded-md p-6 mb-8 border border-blue-100">
+      <div className="bg-blue-200 p-4 mb-8 border border-blue-100">
         <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <FiAlertCircle className="text-blue-600" />
           Violation Summary
@@ -111,7 +111,7 @@ const GenerateReportForm: React.FC<GenerateReportFormParams> = ({ data }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-white rounded-lg shadow-sm">
+            <div className="p-2 bg-white shadow-sm">
               <FiTruck className="text-gray-600" />
             </div>
             <div>
@@ -151,7 +151,7 @@ const GenerateReportForm: React.FC<GenerateReportFormParams> = ({ data }) => {
       </div>
 
       {/* Report Form */}
-      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+      <div className="bg-white p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
           <FiSend className="text-blue-600" />
           Generate Report
@@ -271,7 +271,7 @@ const GenerateReportForm: React.FC<GenerateReportFormParams> = ({ data }) => {
       </div>
 
       {/* Help Text */}
-      <div className="mt-6 text-center">
+      <div className="mb-4 text-center">
         <p className="text-sm text-gray-500">
           This will generate an official report.
         </p>

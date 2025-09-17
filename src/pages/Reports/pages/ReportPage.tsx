@@ -57,7 +57,7 @@ const ReportPage = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="mb-8">

@@ -57,8 +57,9 @@ const GenerateReport: React.FC = () => {
   }, [id]);
 
   const generatePaymentUrl = (reportId: string, amount: string) => {
-    // Replace with your actual payment endpoint or service
-    return `http://localhost:5173/payments?report_id=${reportId}&amount=${amount}`;
+    return `${
+      import.meta.env.VITE_ORIGIN_URL
+    }/payments?report_id=${reportId}&amount=${amount}`;
   };
 
   const sendEmailViaReportHandler = async (e: React.FormEvent) => {
@@ -68,7 +69,6 @@ const GenerateReport: React.FC = () => {
     setSendStatus({});
 
     try {
-      // Generate payment URL
       const paymentUrl = generatePaymentUrl(id, report.fine);
 
       const templateParams = {
@@ -77,8 +77,8 @@ const GenerateReport: React.FC = () => {
         violation: report.violation,
         fine: report.fine,
         address: report.address,
-        payment_url: paymentUrl, // Add payment URL to template params
-        report_id: id, // Also send report ID for reference
+        payment_url: paymentUrl,
+        report_id: id,
       };
 
       const serviceId = import.meta.env.VITE_SERVICE_ID;
@@ -134,7 +134,7 @@ const GenerateReport: React.FC = () => {
 
       {isLoading ? (
         // Modern Skeleton Loader
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 animate-pulse">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 animate-pulse">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
             <div className="h-6 bg-gray-200 rounded w-48"></div>

@@ -89,7 +89,11 @@ const DashboardLayout = () => {
                       <span className="hidden md:block text-sm font-medium text-gray-700">
                         {userInfo.email}
                       </span>
-                      <small className="text-gray-500 text-[10px]">Admin</small>
+
+                      <small className="text-gray-500 text-[10px]">
+                        {" "}
+                        {userInfo?.role === "User" ? "Reviewer" : "Admin"}
+                      </small>
                     </div>
                     <MdKeyboardArrowDown
                       className={`text-xl transition-transform mb-3 ${

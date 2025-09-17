@@ -11,11 +11,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const [vilCount, setVilCount] = useState<string>("");
   const [repoCount, setRepoCount] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const count1 = localStorage.getItem("violationCount");
@@ -32,7 +34,7 @@ const HomePage = () => {
       transition={{ duration: 0.5 }}
     >
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-green-900 to-yellow-700 rounded-2xl shadow-lg p-6 mb-8 flex justify-between items-center">
+      <div className="bg-gradient-to-r from-lime-700 to-sky-600 rounded-2xl shadow-lg p-6 mb-8 flex justify-between items-center">
         <div className="text-white">
           <h1 className="text-2xl md:text-3xl font-bold mb-2">
             Police Station Dashboard
@@ -53,8 +55,9 @@ const HomePage = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
         <motion.div
-          className="bg-white rounded-xl shadow-md p-6 flex items-center"
+          className="bg-white rounded-md border shadow-md p-6 flex items-center cursor-pointer"
           whileHover={{ y: -5, transition: { duration: 0.2 } }}
+          onClick={() => navigate("/trafic-rules")}
         >
           <div className="bg-blue-100 p-4 rounded-lg mr-4">
             <IoDocumentText className="text-3xl text-blue-600" />
@@ -66,8 +69,9 @@ const HomePage = () => {
         </motion.div>
 
         <motion.div
-          className="bg-white rounded-xl shadow-md p-6 flex items-center"
+          className="bg-white rounded-md border shadow-md p-6 flex items-center cursor-pointer"
           whileHover={{ y: -5, transition: { duration: 0.2 } }}
+          onClick={() => navigate("/violations")}
         >
           <div className="bg-emerald-100 p-4 rounded-lg mr-4">
             <BsFillFileEarmarkRuledFill className="text-3xl text-emerald-600" />
@@ -79,8 +83,9 @@ const HomePage = () => {
         </motion.div>
 
         <motion.div
-          className="bg-white rounded-xl shadow-md p-6 flex items-center"
+          className="bg-white rounded-md border shadow-md p-6 flex items-center cursor-pointer"
           whileHover={{ y: -5, transition: { duration: 0.2 } }}
+          onClick={() => navigate("/reports")}
         >
           <div className="bg-amber-100 p-4 rounded-lg mr-4">
             <HiOutlineDocumentReport className="text-3xl text-amber-600" />
@@ -99,7 +104,7 @@ const HomePage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row bg-gradient-to-r from-lime-700 to-sky-600">
           <div className="md:w-2/5 p-6 bg-gray-50 flex items-center justify-center">
             <img
               src={station}
@@ -108,7 +113,7 @@ const HomePage = () => {
             />
           </div>
           <div className="md:w-3/5 p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            <h2 className="text-xl font-semibold text-white mb-4">
               Police Station Sri Lanka
             </h2>
 
@@ -118,8 +123,8 @@ const HomePage = () => {
                   <FaPhoneAlt className="text-blue-600 text-sm" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Phone</p>
-                  <p className="text-gray-800">081 3456789</p>
+                  <p className="text-sm text-gray-200">Phone</p>
+                  <p className="text-gray-300">081 3456789</p>
                 </div>
               </div>
 
@@ -128,8 +133,8 @@ const HomePage = () => {
                   <MdOutlineMail className="text-blue-600 text-sm" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Email</p>
-                  <p className="text-gray-800">{userInfo?.email}</p>
+                  <p className="text-sm text-gray-200">Email</p>
+                  <p className="text-gray-300">{userInfo?.email}</p>
                 </div>
               </div>
 
@@ -138,8 +143,8 @@ const HomePage = () => {
                   <FaLocationPin className="text-blue-600 text-sm" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Location</p>
-                  <p className="text-gray-800">Colombo, Sri Lanka</p>
+                  <p className="text-sm text-gray-200">Location</p>
+                  <p className="text-gray-300">Colombo, Sri Lanka</p>
                 </div>
               </div>
             </div>

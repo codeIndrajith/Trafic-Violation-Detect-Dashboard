@@ -74,7 +74,7 @@ const GenerateReportPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 md:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <div className="w-full">
         {/* Header */}
         <div className="mb-8">
@@ -102,7 +102,7 @@ const GenerateReportPage = () => {
         </div>
 
         {/* Main Content Card */}
-        <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-md shadow-md overflow-hidden">
           {/* Loading State */}
           {loading && (
             <div className="p-8">
@@ -166,7 +166,7 @@ const GenerateReportPage = () => {
             <div>
               {/* Status Header */}
               <div
-                className={`px-8 py-6 border-b ${
+                className={`px-8 py-6 ${
                   violation.reportGen ? "bg-green-50" : "bg-blue-50"
                 }`}
               >
@@ -197,7 +197,7 @@ const GenerateReportPage = () => {
               </div>
 
               {/* Content */}
-              <div className="p-8">
+              <div className="">
                 {violation.reportGen === false && (
                   <GenerateReportForm data={violation} />
                 )}
