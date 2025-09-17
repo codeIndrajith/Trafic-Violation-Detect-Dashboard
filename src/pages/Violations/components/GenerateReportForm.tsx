@@ -103,7 +103,7 @@ const GenerateReportForm: React.FC<GenerateReportFormParams> = ({ data }) => {
   return (
     <div className="w-full">
       {/* Violation Summary */}
-      <div className="bg-blue-200 p-4 mb-8 border border-blue-100">
+      <div className="bg-blue-200 p-4 px-8 mb-8 border border-blue-100">
         <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <FiAlertCircle className="text-blue-600" />
           Violation Summary

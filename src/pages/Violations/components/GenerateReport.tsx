@@ -115,26 +115,9 @@ const GenerateReport: React.FC = () => {
 
   return (
     <div className="w-full">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-blue-100 rounded-xl">
-            <FiFileText className="text-2xl text-blue-600" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              Violation Report
-            </h1>
-            <p className="text-gray-600">
-              Detailed traffic violation information
-            </p>
-          </div>
-        </div>
-      </div>
-
       {isLoading ? (
         // Modern Skeleton Loader
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 animate-pulse">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 animate-pulse p-4">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
             <div className="h-6 bg-gray-200 rounded w-48"></div>
@@ -253,12 +236,12 @@ const GenerateReport: React.FC = () => {
             {/* Station Information */}
             <div className="bg-gray-100 rounded-lg p-4">
               <h3 className="text-sm font-medium text-gray-700 mb-3">
-                Kandy Police Station
+                Police Station
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
-                <div>ploceKandy@gmail.com</div>
+                <div>Police@gmail.com</div>
                 <div>071 4578490</div>
-                <div>Kandy, Sri Lanka</div>
+                <div>Colombo, Sri Lanka</div>
               </div>
             </div>
           </div>
