@@ -19,12 +19,12 @@ import PrivateRoute from "./components/PrivateRoute.tsx";
 import RulesPage from "./pages/Rules/pages/RulesPage.tsx";
 import ViolationPage from "./pages/Violations/pages/ViolationPage.tsx";
 import ReportPage from "./pages/Reports/pages/ReportPage.tsx";
-import PaymentPage from "./pages/Payment/pages/PaymentPage.tsx";
 import ProfilePage from "./pages/Profile/pages/ProfilePage.tsx";
 import NotificationPage from "./pages/Notifications/pages/NotificationPage.tsx";
 import EmailPage from "./pages/Emails/pages/EmailPage.tsx";
 import GenerateReportPage from "./pages/Violations/pages/GenerateReportPage.tsx";
-import PayFinePage from "./pages/Fines/PayFinePage.tsx";
+import MonitorDashboardPage from "./pages/monitor-pages/MonitorDashboardPage.tsx";
+import ViolationDetailPage from "./pages/monitor-pages/ViolationDetailPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,21 +53,20 @@ const router = createBrowserRouter(
           <Route path="/reports" element={<ReportPage />} />
           <Route path="/:id/generate-report" element={<GenerateReportPage />} />
 
-          {/* Payment Related Routes */}
-          <Route path="/payments" element={<PaymentPage />} />
-
           {/* Profile Related Routes */}
           <Route path="/profile" element={<ProfilePage />} />
 
           {/* Notification Related Routes */}
           <Route path="/notifications" element={<NotificationPage />} />
 
+          {/* Second user realted routes */}
+          <Route path="/monitor" element={<MonitorDashboardPage />} />
+          <Route path="/monitor/:id" element={<ViolationDetailPage />} />
+
           {/* Email Related Routes */}
           <Route path="/emails" element={<EmailPage />} />
         </Route>
       </Route>
-
-      <Route path="/:ticket-id/pay-fine" element={<PayFinePage />} />
     </>
   )
 );

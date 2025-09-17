@@ -2,19 +2,29 @@ import { Link, useNavigate } from "react-router-dom";
 import signup from "../../images/signup.svg";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { auth, database, db } from "../../config/firebase";
 import { ImSpinner9 } from "react-icons/im";
 import { setCredentials } from "../../slices/authSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import authImage from "../../assets/authImage.jpg";
+import {
+  FaUser,
+  FaLock,
+  FaPhone,
+  FaEnvelope,
+  FaIdCard,
+  FaUserTag,
+  FaTrafficLight,
+  FaShieldAlt,
+} from "react-icons/fa";
+import { doc, setDoc } from "firebase/firestore";
 
 interface UserSignUp {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
-  address: string;
+  role: string;
   contactNumber: string;
 }
 
@@ -26,12 +36,14 @@ const SignUpPage = () => {
     lastName: "",
     email: "",
     password: "",
-    address: "",
+    role: "",
     contactNumber: "",
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ): void => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -49,6 +61,11 @@ const SignUpPage = () => {
         formData.password
       );
       if (res) {
+        await setDoc(doc(database, "users", res.user.uid), {
+          email: formData.email,
+          role: formData.role,
+          createdAt: new Date(),
+        });
         const { password, ...filteredData } = formData;
         dispatch(setCredentials(filteredData));
         setFormData({
@@ -56,11 +73,16 @@ const SignUpPage = () => {
           lastName: "",
           email: "",
           password: "",
-          address: "",
+          role: "",
           contactNumber: "",
         });
         toast.success("Sign Up Complete", { className: "text-xs" });
-        navigate("/dashboard");
+        if (formData.role === "Admin") {
+          navigate("/dashboard");
+        }
+        if (formData.role === "User") {
+          navigate("/monitor");
+        }
       }
     } catch (error: any) {
       toast.error(error?.message, {
@@ -70,152 +92,195 @@ const SignUpPage = () => {
       setIsLoading(false);
     }
   };
+
   return (
-    <div
-      className="w-full h-screen bg-cover bg-center flex items-center justify-center p-6"
-      style={{ backgroundImage: `url(${authImage})` }}
-    >
-      <div className="flex flex-col xl:flex-row items-center justify-center gap-4">
-        <div className="w-full bg-white px-10 py-6 rounded-md">
-          <h2 className="py-2">Welcome To Traffic Violation Detection </h2>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              <div className="relative w-full">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-lime-700 to-sky-600 p-4">
+      <div className="flex flex-col md:flex-row w-full max-w-6xl rounded-md overflow-hidden shadow-2xl">
+        {/* Left side - Illustration */}
+        <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-blue-700 to-indigo-800 items-center justify-center p-8">
+          <div className="text-center text-white">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="p-4 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg">
+                <FaTrafficLight className="text-3xl text-white" />
+              </div>
+              <div className="p-4 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg">
+                <FaShieldAlt className="text-3xl text-white" />
+              </div>
+            </div>
+            <h1 className="text-4xl font-bold mb-6">Traffic Monitor</h1>
+            <p className="text-xl mb-8 opacity-90">
+              Violation Detection Dashboard
+            </p>
+            <div className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-lg">
+              <img
+                src={signup}
+                alt="Sign up illustration"
+                className="w-full h-64 object-contain"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Right side - Form */}
+        <div className="w-full md:w-1/2 bg-white/95 backdrop-blur-sm p-8 md:p-12">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl shadow-lg mb-4">
+              <FaLock className="text-white text-2xl" />
+            </div>
+            <h2 className="text-3xl font-bold text-gray-800">Create Account</h2>
+            <p className="text-gray-600 mt-2">
+              Join our traffic monitoring system
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* First Name */}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <FaIdCard className="text-gray-400" />
+                </div>
                 <input
                   type="text"
                   id="first-name"
-                  className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
-                  placeholder=" "
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  placeholder="First Name"
                   onChange={handleChange}
                   name="firstName"
                   value={formData.firstName}
                   required
                 />
-                <label
-                  htmlFor="first-name"
-                  className="absolute left-4 top-[3px] text-xs text-green-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-focus:top-[3px] peer-focus:text-xs peer-focus:text-green-500"
-                >
-                  First Name
-                </label>
               </div>
 
-              <div className="relative w-full">
+              {/* Last Name */}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <FaIdCard className="text-gray-400" />
+                </div>
                 <input
                   type="text"
                   id="last-name"
-                  className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
-                  placeholder=" "
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  placeholder="Last Name"
                   onChange={handleChange}
                   name="lastName"
                   value={formData.lastName}
                   required
                 />
-                <label
-                  htmlFor="last-name"
-                  className="absolute left-4 top-[3px] text-xs text-green-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-focus:top-[3px] peer-focus:text-xs peer-focus:text-green-500"
-                >
-                  Last Name
-                </label>
               </div>
 
-              <div className="relative w-full">
+              {/* Email */}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <FaEnvelope className="text-gray-400" />
+                </div>
                 <input
                   type="email"
                   id="email"
-                  className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
-                  placeholder=" "
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  placeholder="Email"
                   onChange={handleChange}
                   name="email"
                   value={formData.email}
                   required
                 />
-                <label
-                  htmlFor="email"
-                  className="absolute left-4 top-[3px] text-xs text-green-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-focus:top-[3px] peer-focus:text-xs peer-focus:text-green-500"
-                >
-                  Email
-                </label>
               </div>
 
-              <div className="relative w-full">
+              {/* Password */}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <FaLock className="text-gray-400" />
+                </div>
                 <input
                   type="password"
                   id="password"
-                  className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
-                  placeholder=" "
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  placeholder="Password"
                   onChange={handleChange}
                   name="password"
                   value={formData.password}
                   required
                 />
-                <label
-                  htmlFor="password"
-                  className="absolute left-4 top-[3px] text-xs text-green-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-focus:top-[3px] peer-focus:text-xs peer-focus:text-green-500"
-                >
-                  Password
-                </label>
               </div>
 
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  id="address"
-                  className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
-                  placeholder=" "
+              {/* Role */}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <FaUserTag className="text-gray-400" />
+                </div>
+                <select
+                  id="role"
+                  name="role"
+                  value={formData.role}
                   onChange={handleChange}
-                  name="address"
-                  value={formData.address}
                   required
-                />
-                <label
-                  htmlFor="address"
-                  className="absolute left-4 top-[3px] text-xs text-green-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-focus:top-[3px] peer-focus:text-xs peer-focus:text-green-500"
+                  className="w-full pl-10 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition appearance-none"
                 >
-                  Police station address
-                </label>
+                  <option value="" disabled hidden>
+                    Select Role
+                  </option>
+                  <option value="Admin">Admin</option>
+                  <option value="User">Violation Inspector</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg
+                    className="w-5 h-5 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </div>
               </div>
 
-              <div className="relative w-full">
+              {/* Contact Number */}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <FaPhone className="text-gray-400" />
+                </div>
                 <input
                   type="number"
                   id="contactNumber"
-                  className="peer w-full border rounded-sm border-gray-200 p-4 text-sm focus:outline-none focus:border-green-500 invalid:border-red-500"
-                  placeholder=" "
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  placeholder="Contact Number"
                   onChange={handleChange}
                   name="contactNumber"
                   value={formData.contactNumber}
                   required
                   min={1}
                 />
-                <label
-                  htmlFor="contactNumber"
-                  className="absolute left-4 top-[3px] text-xs text-green-500 transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 peer-focus:top-[3px] peer-focus:text-xs peer-focus:text-green-500"
-                >
-                  Contact Number
-                </label>
               </div>
             </div>
 
-            <div className="relative w-full">
-              <button
-                className="bg-blue-400 text-white p-2 w-full text-center text-sm"
-                type="submit"
+            {/* Submit Button */}
+            <button
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-3 rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <ImSpinner9 className="animate-spin" />
+                  <span>Processing...</span>
+                </div>
+              ) : (
+                "Create Account"
+              )}
+            </button>
+
+            {/* Sign In Link */}
+            <div className="text-center text-sm text-gray-600 mt-4">
+              Already have an account?{" "}
+              <Link
+                to="/sign-in"
+                className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
               >
-                {isLoading ? (
-                  <div className="flex items-center justify-center gap-4 text-xs">
-                    <ImSpinner9 className="animate-spin" />{" "}
-                    <span>Processing...</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center gap-4 text-xs">
-                    Sign Up
-                  </div>
-                )}
-              </button>
-            </div>
-            <div className="relative flex items-center justify-center gap-4 w-full">
-              <div className="text-xs">Already have an account ?</div>
-              <Link className="text-xs text-gray-500" to="/sign-in">
                 Sign In
               </Link>
             </div>

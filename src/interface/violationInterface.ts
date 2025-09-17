@@ -14,6 +14,7 @@ export interface ReportData {
   email: string;
   fine: string;
   phone: string;
+  paid: boolean;
   violationId: string;
   vehicleNumber: string;
   violation: string;

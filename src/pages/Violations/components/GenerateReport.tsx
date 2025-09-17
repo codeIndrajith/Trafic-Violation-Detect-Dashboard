@@ -1,15 +1,36 @@
 import { useEffect, useState } from "react";
-import { MdReportProblem } from "react-icons/md";
-import { ReportData, Violation } from "../../../interface/violationInterface";
+import { ReportData } from "../../../interface/violationInterface";
 import { firestore } from "../../../config/firebase";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
+import emailjs from "@emailjs/browser";
+import {
+  FiFileText,
+  FiTruck,
+  FiCalendar,
+  FiMail,
+  FiMapPin,
+  FiAlertTriangle,
+  FiDollarSign,
+  FiSend,
+  FiLoader,
+  FiCheckCircle,
+  FiXCircle,
+  FiPrinter,
+  FiDownload,
+} from "react-icons/fi";
 
 const GenerateReport: React.FC = () => {
   const params = useParams();
   const id = params.id;
   const [report, setReport] = useState<ReportData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [sendStatus, setSendStatus] = useState<{
+    success?: boolean;
+    message?: string;
+  }>({});
+  const [userEmail, setUserEmail] = useState<string>("");
 
   useEffect(() => {
     const loadReport = async () => {
@@ -35,129 +56,295 @@ const GenerateReport: React.FC = () => {
     loadReport();
   }, [id]);
 
-  const [userEmail, setUserEmail] = useState<string>("");
-  const sendEmailViaReportHandler = (e: React.FormEvent): void => {
-    e.preventDefault();
-    console.log(userEmail);
+  const generatePaymentUrl = (reportId: string, amount: string) => {
+    return `${
+      import.meta.env.VITE_ORIGIN_URL
+    }/payments?report_id=${reportId}&amount=${amount}`;
   };
+
+  const sendEmailViaReportHandler = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!report || !id) return;
+    setIsSubmitting(true);
+    setSendStatus({});
+
+    try {
+      const paymentUrl = generatePaymentUrl(id, report.fine);
+
+      const templateParams = {
+        to_email: userEmail,
+        vehicleNumber: report.vehicleNumber,
+        violation: report.violation,
+        fine: report.fine,
+        address: report.address,
+        payment_url: paymentUrl,
+        report_id: id,
+      };
+
+      const serviceId = import.meta.env.VITE_SERVICE_ID;
+      const templateId = import.meta.env.VITE_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_PUBLIC_KEY;
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      setUserEmail("");
+      setSendStatus({
+        success: true,
+        message: "Report sent successfully to the provided email!",
+      });
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      setSendStatus({
+        success: false,
+        message: "Failed to send report. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const formatDate = (dateString: any) => {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
-    <>
-      {isLoading ? (
-        <div className="w-full rounded-sm min-h-[500px] animate-pulse">
-          <div className="border p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-6 h-6 bg-red-300 rounded-full" />
-              <div className="h-4 w-32 bg-red-200 rounded" />
-            </div>
-
-            <div className="w-full px-2 space-y-4">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i + 1} className="w-full flex items-center gap-6">
-                  <div className="h-4 w-32 bg-gray-200 rounded-sm" />
-                  <div className="h-3 w-40 bg-gray-100 rounded-sm" />
-                </div>
-              ))}
-
-              <div className="w-full flex items-center gap-6 mb-4">
-                <div className="h-4 w-32 bg-gray-200 rounded-sm" />
-                <div className="h-4 w-28 bg-red-200 rounded-sm" />
-              </div>
-
-              <div className="mt-2 flex flex-col gap-2 text-xs">
-                <div className="h-3 w-40 bg-gray-200 rounded-sm" />
-                <div className="h-3 w-48 bg-gray-200 rounded-sm" />
-                <div className="h-3 w-32 bg-gray-200 rounded-sm" />
-              </div>
-            </div>
+    <div className="w-full">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-blue-100 rounded-xl">
+            <FiFileText className="text-2xl text-blue-600" />
           </div>
-
-          <div className="py-2">
-            <div className="grid grid-cols-4 gap-2">
-              <div className="h-9 col-span-3 bg-gray-200 rounded-sm" />
-              <div className="h-9 col-span-1 bg-blue-300 rounded-sm" />
-            </div>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              Violation Report
+            </h1>
+            <p className="text-gray-600">
+              Detailed traffic violation information
+            </p>
           </div>
         </div>
-      ) : (
-        <div className="w-full rounded-sm min-h-[500px]">
-          <div className="border p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <MdReportProblem className="text-red-500" />
-              <h1 className="text-lg text-red-600">Violation Report</h1>
+      </div>
+
+      {isLoading ? (
+        // Modern Skeleton Loader
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 animate-pulse">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gray-200 rounded-full"></div>
+            <div className="h-6 bg-gray-200 rounded w-48"></div>
+          </div>
+
+          <div className="space-y-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <div className="h-4 bg-gray-200 rounded w-32"></div>
+                <div className="h-4 bg-gray-200 rounded w-40"></div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <div className="h-10 bg-gray-200 rounded w-full"></div>
+          </div>
+        </div>
+      ) : report ? (
+        <div className="bg-white rounded-md shadow-sm border border-gray-200 overflow-hidden">
+          {/* Report Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white">
+            <div className="flex items-center gap-3 mb-2">
+              <FiFileText className="text-2xl" />
+              <h2 className="text-xl font-semibold">
+                Official Violation Report
+              </h2>
+            </div>
+            <p className="text-blue-100">
+              Police Station • {formatDate(report.createdAt)}
+            </p>
+          </div>
+
+          {/* Report Content */}
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="bg-blue-50 rounded-lg p-4">
+                <h3 className="text-sm font-medium text-blue-800 mb-2">
+                  Report Details
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <FiTruck className="text-blue-600" />
+                    <div>
+                      <p className="text-xs text-blue-700">Vehicle Number</p>
+                      <p className="font-medium text-gray-900">
+                        {report.vehicleNumber}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <FiCalendar className="text-blue-600" />
+                    <div>
+                      <p className="text-xs text-blue-700">
+                        Violation Date & Time
+                      </p>
+                      <p className="font-medium text-gray-900">
+                        {formatDate(report.detectDateTime)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-red-50 rounded-lg p-4">
+                <h3 className="text-sm font-medium text-red-800 mb-2">
+                  Violation Details
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <FiAlertTriangle className="text-red-600" />
+                    <div>
+                      <p className="text-xs text-red-700">Violation Type</p>
+                      <p className="font-medium text-gray-900">
+                        {report.violation}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <FiDollarSign className="text-red-600" />
+                    <div>
+                      <p className="text-xs text-red-700">Fine Amount</p>
+                      <p className="font-medium text-red-600">
+                        Rs. {report.fine}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="w-full px-2">
-              <div className="w-full flex items-center gap-6 mb-4">
-                <h1 className="font-semibold text-sm text-gray-700">
-                  Vehicle Number
-                </h1>
-                <p className="text-gray-600 text-xs">{report?.vehicleNumber}</p>
+            {/* Contact Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <FiMail className="text-gray-600" />
+                  Contact Information
+                </h3>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600">{report.email}</p>
+                  <p className="text-sm text-gray-600">{report.phone}</p>
+                </div>
               </div>
 
-              <div className="w-full flex items-center gap-6 mb-4">
-                <h1 className="font-semibold text-sm text-gray-700">
-                  Time & Date
-                </h1>
-                <p className="text-gray-600 text-xs">
-                  <p>
-                    {report?.createdAt &&
-                      new Date(report.detectDateTime).toLocaleString()}
-                  </p>
-                </p>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h3 className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <FiMapPin className="text-gray-600" />
+                  Address
+                </h3>
+                <p className="text-sm text-gray-600">{report.address}</p>
               </div>
+            </div>
 
-              <div className="w-full flex items-center gap-6 mb-4">
-                <h1 className="font-semibold text-sm text-gray-700">Email</h1>
-                <p className="text-gray-600 text-xs">{report?.email}</p>
-              </div>
-
-              <div className="w-full flex items-center gap-6 mb-4">
-                <h1 className="font-semibold text-sm text-gray-700">Address</h1>
-                <p className="text-gray-600 text-xs">{report?.address}</p>
-              </div>
-
-              <div className="w-full flex items-center gap-6 mb-4">
-                <h1 className="font-semibold text-sm text-gray-700">
-                  Violation
-                </h1>
-                <p className="text-gray-600 text-xs">{report?.violation}</p>
-              </div>
-
-              <div className="w-full flex items-center gap-6 mb-4">
-                <h1 className="font-semibold text-sm text-gray-700">Fine</h1>
-                <p className="text-lg text-red-500 font text-xs-bold">
-                  RS. {report?.fine}
-                </p>
-              </div>
-
-              <div className="mt-2 flex flex-col text-xs">
-                <h1>Kandy Poince Station</h1>
-                <h1>ploceKandy@gmail.com</h1>
-                <h1>071 4578490</h1>
+            {/* Station Information */}
+            <div className="bg-gray-100 rounded-lg p-4">
+              <h3 className="text-sm font-medium text-gray-700 mb-3">
+                Kandy Police Station
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+                <div>ploceKandy@gmail.com</div>
+                <div>071 4578490</div>
+                <div>Kandy, Sri Lanka</div>
               </div>
             </div>
           </div>
-          <div className="py-2">
-            <form onSubmit={sendEmailViaReportHandler}>
-              <div className="grid grid-cols-4 gap-2">
-                <input
-                  type="email"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setUserEmail(e.target.value)
-                  }
-                  className="p-2 col-span-3 text-sm w-full rounded-sm border border-gray-200"
-                  placeholder="Enter user email"
-                  required
-                />
-                <button className="text-white text-xs col-span-1 bg-blue-500 rounded-sm p-2">
-                  Send Report
-                </button>
+
+          {/* Email Form */}
+          <div className="border-t border-gray-200 p-6 bg-gray-50">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <FiSend className="text-blue-600" />
+              Send Report via Email
+            </h3>
+
+            <form onSubmit={sendEmailViaReportHandler} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Recipient Email Address
+                </label>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    id="email"
+                    value={userEmail}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setUserEmail(e.target.value)
+                    }
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="Enter recipient's email address"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <FiLoader className="animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <FiSend />
+                        Send
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
+
+              {/* Status Message */}
+              {sendStatus.message && (
+                <div
+                  className={`p-3 rounded-lg flex items-center gap-3 ${
+                    sendStatus.success
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {sendStatus.success ? (
+                    <FiCheckCircle className="text-lg" />
+                  ) : (
+                    <FiXCircle className="text-lg" />
+                  )}
+                  <span>{sendStatus.message}</span>
+                </div>
+              )}
             </form>
           </div>
         </div>
+      ) : (
+        // No Report Found
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+          <div className="bg-gray-100 p-4 rounded-full inline-flex mb-4">
+            <FiFileText className="text-2xl text-gray-600" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            Report Not Found
+          </h3>
+          <p className="text-gray-600">
+            The requested violation report could not be found.
+          </p>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
