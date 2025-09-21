@@ -92,7 +92,11 @@ const DashboardLayout = () => {
 
                       <small className="text-gray-500 text-[10px]">
                         {" "}
-                        {userInfo?.role === "User" ? "Reviewer" : "Admin"}
+                        {userInfo?.role === "User"
+                          ? "Officer"
+                          : userInfo?.role === "Customer"
+                          ? "Customer"
+                          : "Admin"}
                       </small>
                     </div>
                     <MdKeyboardArrowDown

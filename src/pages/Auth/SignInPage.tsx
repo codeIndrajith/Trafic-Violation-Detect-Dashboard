@@ -69,8 +69,10 @@ const SignInPage = () => {
           // Redirect based on role
           if (role === "Admin") {
             navigate("/dashboard");
-          } else {
+          } else if (role === "User") {
             navigate("/monitor");
+          } else {
+            navigate("/checkout");
           }
         } else {
           throw new Error("User data not found in Firestore.");

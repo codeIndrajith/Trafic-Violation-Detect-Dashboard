@@ -87,6 +87,14 @@ const Navbar = ({
     },
   ];
 
+  const CustomernavItems = [
+    {
+      path: "/checkout",
+      icon: <MdDashboardCustomize className="text-lg" />,
+      label: "Dashboard",
+    },
+  ];
+
   return (
     <>
       {/* Mobile overlay */}
@@ -146,9 +154,35 @@ const Navbar = ({
                 </Link>
               ))}
             </nav>
-          ) : (
+          ) : userInfo?.role === "User" ? (
             <nav className="flex-1 px-2 bg-gray-200 md:mt-2.5 pt-8">
               {OfficernavItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={closeSidebar}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl mb-1 transition-colors ${
+                    location.pathname === item.path
+                      ? "bg-blue-50 text-blue-600 font-medium"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  <span
+                    className={`${
+                      location.pathname === item.path
+                        ? "text-blue-600"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {item.icon}
+                  </span>
+                  <span className="text-sm">{item.label}</span>
+                </Link>
+              ))}
+            </nav>
+          ) : (
+            <nav className="flex-1 px-2 bg-gray-200 md:mt-2.5 pt-8">
+              {CustomernavItems.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
@@ -186,7 +220,11 @@ const Navbar = ({
                     {userInfo.email}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {userInfo?.role === "User" ? "Officer" : "Admin"}
+                    {userInfo?.role === "User"
+                      ? "Officer"
+                      : userInfo?.role === "Customer"
+                      ? "Customer"
+                      : "Admin"}
                   </p>
                 </div>
               </div>

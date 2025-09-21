@@ -59,7 +59,7 @@ const GenerateReport: React.FC = () => {
   const generatePaymentUrl = (reportId: string, amount: string) => {
     return `${
       import.meta.env.VITE_ORIGIN_URL
-    }/payments?report_id=${reportId}&amount=${amount}`;
+    }/checkout?report_id=${reportId}&amount=${amount}`;
   };
 
   const sendEmailViaReportHandler = async (e: React.FormEvent) => {

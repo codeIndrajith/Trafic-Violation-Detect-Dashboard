@@ -107,6 +107,9 @@ const SignUpPage = () => {
         if (formData.role === "User") {
           navigate("/monitor");
         }
+        if (formData.role === "Customer") {
+          navigate("/checkout");
+        }
       }
     } catch (error: any) {
       toast.error(error?.message, {

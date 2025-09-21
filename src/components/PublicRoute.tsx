@@ -7,7 +7,13 @@ const PublicRoute = () => {
 
   return userInfo ? (
     <Navigate
-      to={userInfo?.role === "User" ? "/monitor" : "/dashboard"}
+      to={
+        userInfo?.role === "User"
+          ? "/monitor"
+          : userInfo?.role === "Admin"
+          ? "/dashboard"
+          : "/checkout"
+      }
       replace
     />
   ) : (

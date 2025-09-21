@@ -28,6 +28,7 @@ import ViolationDetailPage from "./pages/monitor-pages/ViolationDetailPage.tsx";
 import AuthorizeProtection from "./components/AuthorizeProtection.tsx";
 import UnauthorizedPage from "./components/UnauthorizedPage .tsx";
 import NotFoundPage from "./components/NotFoundPage.tsx";
+import CheckoutPage from "./pages/checkout/CheckoutPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -71,6 +72,10 @@ const router = createBrowserRouter(
             {/* Second user realted routes */}
             <Route path="/monitor" element={<MonitorDashboardPage />} />
             <Route path="/monitor/:id" element={<ViolationDetailPage />} />
+          </Route>
+
+          <Route element={<AuthorizeProtection allowedRoles={["Customer"]} />}>
+            <Route path="/checkout" element={<CheckoutPage />} />
           </Route>
         </Route>
         <Route path="*" element={<NotFoundPage />} />
