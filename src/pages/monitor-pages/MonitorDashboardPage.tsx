@@ -10,7 +10,6 @@ import {
   FaFilter,
   FaTrafficLight,
 } from "react-icons/fa";
-import { ImSpinner2 } from "react-icons/im";
 
 interface ViolationData {
   id: string;
@@ -46,14 +45,22 @@ const MonitorDashboardPage: React.FC = () => {
           const typeData = data?.[type];
           if (typeData) {
             Object.entries(typeData).forEach(([key, value]: any) => {
-              mergedViolations.push({
-                id: key,
-                dateTime: value.dateTime,
-                number_plate: value.number_plate,
-                vehicle: value.vehicle,
-                violation: type,
-                violation_count: value.violation_count ?? 1,
-              });
+              // Validate that required fields exist
+              if (
+                value &&
+                value.dateTime &&
+                value.number_plate &&
+                value.vehicle
+              ) {
+                mergedViolations.push({
+                  id: key,
+                  dateTime: value.dateTime,
+                  number_plate: value.number_plate,
+                  vehicle: value.vehicle,
+                  violation: type,
+                  violation_count: value.violation_count ?? 1,
+                });
+              }
             });
           }
         });
@@ -69,11 +76,13 @@ const MonitorDashboardPage: React.FC = () => {
     fetchViolations();
   }, []);
 
-  // Filter violations based on search term and filter type
   const filteredViolations = violations.filter((violation) => {
+    const numberPlate = violation.number_plate || "";
+    const vehicle = violation.vehicle || "";
+
     const matchesSearch =
-      violation.number_plate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      violation.vehicle.toLowerCase().includes(searchTerm.toLowerCase());
+      numberPlate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vehicle.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesFilter =
       filterType === "all" || violation.violation === filterType;
@@ -82,7 +91,9 @@ const MonitorDashboardPage: React.FC = () => {
   });
 
   const getViolationTypeDisplay = (type: string) => {
-    return type.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+    return type
+      ? type.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+      : "Unknown Violation";
   };
 
   const getViolationColor = (type: string) => {
@@ -255,7 +266,7 @@ const MonitorDashboardPage: React.FC = () => {
 
                   <h2 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
                     <FaCar className="text-blue-500" />
-                    {violation.number_plate}
+                    {violation.number_plate || "Unknown Plate"}
                   </h2>
 
                   <div className="space-y-2">
