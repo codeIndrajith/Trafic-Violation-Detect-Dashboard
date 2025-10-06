@@ -1,17 +1,8 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  FaArrowLeft,
-  FaMapMarkerAlt,
-  FaClock,
-  FaExclamationTriangle,
-  FaVideo,
-  FaInfoCircle,
-  FaCar,
-} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft, FaVideo, FaInfoCircle } from "react-icons/fa";
 
 const ViolationDetailPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const handleBackClick = () => {
@@ -57,9 +48,7 @@ const ViolationDetailPage: React.FC = () => {
               <div className="bg-black rounded-xl overflow-hidden shadow-lg aspect-video">
                 <video controls className="w-full h-full">
                   <source
-                    src={
-                      "https://res.cloudinary.com/dn8ypojvn/video/upload/v1756885170/a8wwnw9dkcw6bxqfdmjp.mov"
-                    }
+                    src={import.meta.env.VITE_DOUBLE_LINE_CUT_VEDIO_URL}
                     type="video/mp4"
                   />
                   Your browser does not support the video tag.
