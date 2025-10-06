@@ -64,18 +64,20 @@ const SignUpPage = () => {
     setIsLoading(true);
     try {
       const snapshot = await getDocs(collection(database, "users"));
-      const exists = snapshot.docs.find((doc) => {
-        const role = doc.data().role;
-        return role === "Admin" || role === "User";
-      });
-      if (exists && (formData.role === "Admin" || formData.role === "User")) {
-        toast.error(
-          `${formData.role === "User" ? "Officer" : "Admin"} already exists`,
-          {
-            className: "text-xs",
-          }
-        );
+      const adminExists = snapshot.docs.some(
+        (doc) => doc.data().role === "Admin"
+      );
+      const userExists = snapshot.docs.some(
+        (doc) => doc.data().role === "User"
+      );
 
+      if (formData.role === "Admin" && adminExists) {
+        toast.error("Admin already exists", { className: "text-xs" });
+        return;
+      }
+
+      if (formData.role === "User" && userExists) {
+        toast.error("Officer already exists", { className: "text-xs" });
         return;
       }
 

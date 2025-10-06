@@ -27,8 +27,8 @@ const MonitorDashboardPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filterType, setFilterType] = useState<string>("all");
 
-  const handleCardClick = (id: string) => {
-    navigate(`/monitor/${id}`);
+  const handleCardClick = (id: string, type: string) => {
+    navigate(`/monitor/${id}?type=${type}`);
   };
 
   useEffect(() => {
@@ -251,9 +251,11 @@ const MonitorDashboardPage: React.FC = () => {
                 </div>
               ))
             : filteredViolations.map((violation) => (
-                <div
+                <button
                   key={violation.id}
-                  onClick={() => handleCardClick(violation.id)}
+                  onClick={() =>
+                    handleCardClick(violation.id, violation.violation)
+                  }
                   className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1 border border-gray-100"
                 >
                   <div
@@ -303,7 +305,7 @@ const MonitorDashboardPage: React.FC = () => {
                       Click to view details
                     </p>
                   </div>
-                </div>
+                </button>
               ))}
         </div>
 
