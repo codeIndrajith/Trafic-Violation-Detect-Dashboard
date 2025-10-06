@@ -4,6 +4,7 @@ export interface Violation {
   vehicle?: string;
   violation?: string;
   violation_count?: number;
+  status?: string;
   reportGen?: boolean;
   dateTime?: string;
 }

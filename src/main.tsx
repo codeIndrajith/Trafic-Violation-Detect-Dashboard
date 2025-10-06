@@ -20,8 +20,6 @@ import RulesPage from "./pages/Rules/pages/RulesPage.tsx";
 import ViolationPage from "./pages/Violations/pages/ViolationPage.tsx";
 import ReportPage from "./pages/Reports/pages/ReportPage.tsx";
 import ProfilePage from "./pages/Profile/pages/ProfilePage.tsx";
-import NotificationPage from "./pages/Notifications/pages/NotificationPage.tsx";
-import EmailPage from "./pages/Emails/pages/EmailPage.tsx";
 import GenerateReportPage from "./pages/Violations/pages/GenerateReportPage.tsx";
 import MonitorDashboardPage from "./pages/monitor-pages/MonitorDashboardPage.tsx";
 import ViolationDetailPage from "./pages/monitor-pages/ViolationDetailPage.tsx";
@@ -64,8 +62,6 @@ const router = createBrowserRouter(
 
             {/* Profile Related Routes */}
             <Route path="/profile" element={<ProfilePage />} />
-            {/* Email Related Routes */}
-            <Route path="/emails" element={<EmailPage />} />
           </Route>
 
           <Route element={<AuthorizeProtection allowedRoles={["User"]} />}>
