@@ -16,8 +16,6 @@ import {
   FiLoader,
   FiCheckCircle,
   FiXCircle,
-  FiPrinter,
-  FiDownload,
 } from "react-icons/fi";
 
 const GenerateReport: React.FC = () => {

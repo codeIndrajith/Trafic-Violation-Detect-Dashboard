@@ -5,6 +5,7 @@ export interface PaymentData {
   userId: string;
   violationId: string;
   amount: number;
+  amountInRS?: number;
   paypalOrderId: string;
   status: string;
   createTime: string;

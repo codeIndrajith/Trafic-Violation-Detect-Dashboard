@@ -2,13 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 import signup from "../../images/signup.svg";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, database, db } from "../../config/firebase";
+import { auth, database } from "../../config/firebase";
 import { ImSpinner9 } from "react-icons/im";
 import { setCredentials } from "../../slices/authSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import {
-  FaUser,
   FaLock,
   FaPhone,
   FaEnvelope,
@@ -17,15 +16,7 @@ import {
   FaTrafficLight,
   FaShieldAlt,
 } from "react-icons/fa";
-import {
-  collection,
-  collectionGroup,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 
 interface UserSignUp {
   firstName: string;

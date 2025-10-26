@@ -6,7 +6,6 @@ import {
   AiOutlineMail,
   AiOutlineWarning,
   AiOutlineDollarCircle,
-  AiOutlineRight,
 } from "react-icons/ai";
 import { FiArrowRight } from "react-icons/fi";
 

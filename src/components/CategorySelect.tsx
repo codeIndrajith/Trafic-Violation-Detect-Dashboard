@@ -1,7 +1,6 @@
 import { BiSolidMobileVibration, BiSolidReport } from "react-icons/bi";
 import { BsFillFileEarmarkRuledFill } from "react-icons/bs";
 import { MdDashboardCustomize } from "react-icons/md";
-import { RiCloseLargeLine } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 
 const CategorySelect = () => {

@@ -19,15 +19,10 @@ interface NavbarProps {
   closeSidebar: () => void;
 }
 
-const Navbar = ({
-  isSidebarOpen,
-  toggleSidebar,
-  closeSidebar,
-}: NavbarProps) => {
+const Navbar = ({ isSidebarOpen, closeSidebar }: NavbarProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
 
@@ -48,7 +43,6 @@ const Navbar = ({
       await signOut(auth);
       dispatch(clearCredentials());
       navigate("/", { replace: true });
-      setIsModalOpen(false);
     } catch (error: any) {
       toast.error("Error occurred during logout", {
         className: "text-xs",

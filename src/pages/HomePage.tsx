@@ -1,4 +1,3 @@
-import { PiPaypalLogo } from "react-icons/pi";
 import Police from "../images/police.png";
 import station from "../images/station.png";
 import { BsFillFileEarmarkRuledFill } from "react-icons/bs";

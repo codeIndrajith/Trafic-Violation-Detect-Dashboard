@@ -3,7 +3,7 @@ import { Violation } from "../../../interface/violationInterface";
 import { useParams } from "react-router-dom";
 import { db, firestore } from "../../../config/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import { ref, update } from "firebase/database";
+import { get, ref, update } from "firebase/database";
 import { toast } from "react-toastify";
 import {
   FiMail,
@@ -76,11 +76,14 @@ const GenerateReportForm: React.FC<GenerateReportFormParams> = ({ data }) => {
       let found = false;
 
       for (const section of sections) {
-        const pathRef = ref(db, `${section}/${id}`);
         try {
-          await update(pathRef, { reportGen: true });
-          found = true;
-          break;
+          const pathRef = ref(db, `${section}/${id}`);
+          const snapshot = await get(pathRef);
+          if (snapshot.exists()) {
+            await update(pathRef, { reportGen: true });
+            found = true;
+            break;
+          }
         } catch (error: any) {
           console.log("Error occurred finding doc", error);
         }

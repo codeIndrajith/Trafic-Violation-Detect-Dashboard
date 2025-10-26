@@ -7,7 +7,6 @@ import {
   FiAlertCircle,
   FiRefreshCw,
   FiFileText,
-  FiFilter,
   FiSearch,
 } from "react-icons/fi";
 import { ReportGenerateData } from "../../Violations/components/GenerateReportForm";
